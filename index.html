@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coursa — Goldfish & Bay</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <style>
+    /* === DESIGN TOKENS === */
+    :root, [data-theme="light"] {
+      --text-xs:   clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm:   clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg:   clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl:   clamp(1.5rem, 1.2rem + 1.25vw, 2rem);
+
+      --space-1:0.25rem; --space-2:0.5rem; --space-3:0.75rem; --space-4:1rem;
+      --space-5:1.25rem; --space-6:1.5rem; --space-8:2rem; --space-10:2.5rem;
+      --space-12:3rem; --space-16:4rem;
+
+      --color-bg:             #f7f6f2;
+      --color-surface:        #f9f8f5;
+      --color-surface-2:      #fbfbf9;
+      --color-surface-offset: #f3f0ec;
+      --color-surface-dynamic:#e6e4df;
+      --color-divider:        #dcd9d5;
+      --color-border:         #d4d1ca;
+      --color-text:           #28251d;
+      --color-text-muted:     #7a7974;
+      --color-text-faint:     #bab9b4;
+      --color-text-inverse:   #f9f8f4;
+      --color-primary:        #01696f;
+      --color-primary-hover:  #0c4e54;
+      --color-primary-highlight: #cedcd8;
+      --color-success:        #437a22;
+      --color-success-highlight: #d4dfcc;
+      --color-gold:           #b88000;
+      --color-gold-highlight: #e9e0c6;
+      --color-blue:           #006494;
+      --color-blue-highlight: #c6d8e4;
+      --color-error:          #a12c2c;
+      --color-error-highlight: #eed9d9;
+
+      --radius-sm:0.375rem; --radius-md:0.5rem; --radius-lg:0.75rem;
+      --radius-xl:1rem; --radius-2xl:1.5rem; --radius-full:9999px;
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      --shadow-sm: 0 1px 3px oklch(0.2 0.01 80/0.07);
+      --shadow-md: 0 4px 12px oklch(0.2 0.01 80/0.09), 0 1px 3px oklch(0.2 0.01 80/0.05);
+      --sidebar-w: 240px;
+      --header-h: 52px;
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-body: 'Satoshi', 'Helvetica Neue', sans-serif;
+    }
+
+    [data-theme="dark"] {
+      --color-bg:#141312; --color-surface:#1a1918; --color-surface-2:#1f1e1c;
+      --color-surface-offset:#1d1c1a; --color-surface-dynamic:#2c2b29;
+      --color-divider:#252422; --color-border:#353432;
+      --color-text:#d0cec9; --color-text-muted:#787673; --color-text-faint:#504e4c; --color-text-inverse:#2b2a28;
+      --color-primary:#4f98a3; --color-primary-hover:#3a8490; --color-primary-highlight:#1e3235;
+      --color-success:#6daa45; --color-success-highlight:#1e2e18;
+      --color-gold:#e8af34; --color-gold-highlight:#2e2610;
+      --color-blue:#5591c7; --color-blue-highlight:#152333;
+      --color-error:#dd6969; --color-error-highlight:#3a2020;
+      --shadow-sm:0 1px 3px oklch(0 0 0/0.25); --shadow-md:0 4px 16px oklch(0 0 0/0.4),0 1px 3px oklch(0 0 0/0.2);
+    }
+
+    @media (prefers-color-scheme:dark) { :root:not([data-theme]) {
+      --color-bg:#141312; --color-surface:#1a1918; --color-surface-2:#1f1e1c;
+      --color-surface-offset:#1d1c1a; --color-surface-dynamic:#2c2b29;
+      --color-divider:#252422; --color-border:#353432;
+      --color-text:#d0cec9; --color-text-muted:#787673; --color-text-faint:#504e4c; --color-text-inverse:#2b2a28;
+      --color-primary:#4f98a3; --color-primary-hover:#3a8490; --color-primary-highlight:#1e3235;
+      --color-success:#6daa45; --color-success-highlight:#1e2e18;
+      --color-gold:#e8af34; --color-gold-highlight:#2e2610;
+      --color-blue:#5591c7; --color-blue-highlight:#152333;
+      --color-error:#dd6969; --color-error-highlight:#3a2020;
+      --shadow-sm:0 1px 3px oklch(0 0 0/0.25); --shadow-md:0 4px 16px oklch(0 0 0/0.4),0 1px 3px oklch(0 0 0/0.2);
+    }}
+
+    /* === RESET === */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+    body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-sm);color:var(--color-text);background:var(--color-bg);display:flex;flex-direction:column;overflow-x:hidden}
+    img,svg{display:block;max-width:100%}
+    button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+    input,textarea{font:inherit;color:inherit}
+    a{color:inherit;text-decoration:none}
+    a,button,[role=button],input,textarea{transition:color var(--transition),background var(--transition),border-color var(--transition),box-shadow var(--transition),opacity var(--transition)}
+    :focus-visible{outline:2px solid var(--color-primary);outline-offset:2px;border-radius:var(--radius-sm)}
+    ::selection{background:oklch(from var(--color-primary) l c h/0.18)}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
+
+    /* === LAYOUT === */
+    .app { display: flex; min-height: 100dvh; }
+
+    /* === SIDEBAR === */
+    .sidebar {
+      width: var(--sidebar-w); flex-shrink: 0;
+      background: var(--color-surface);
+      border-right: 1px solid var(--color-divider);
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      overflow-y: auto;
+    }
+    .sidebar__top {
+      padding: var(--space-4) var(--space-4) var(--space-3);
+      border-bottom: 1px solid var(--color-divider);
+      display: flex; align-items: center; gap: var(--space-3);
+    }
+    .sidebar__logo { display: flex; align-items: center; gap: var(--space-2); flex: 1; text-decoration: none; color: var(--color-text); }
+    .sidebar__logo-name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 400; }
+    .sidebar__company {
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-xs); color: var(--color-text-faint);
+      border-bottom: 1px solid var(--color-divider); line-height: 1.4;
+    }
+    .sidebar__company strong { color: var(--color-text-muted); display: block; }
+    .sidebar__section { padding: var(--space-3) var(--space-4) var(--space-2); }
+    .sidebar__section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--color-text-faint); margin-bottom: var(--space-2);
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: var(--space-3); padding: 6px var(--space-3);
+      border-radius: var(--radius-md); text-decoration: none; color: var(--color-text-muted);
+      font-size: var(--text-xs); font-weight: 500; cursor: pointer; width: 100%;
+      justify-content: flex-start; border: none; background: none;
+    }
+    .nav-item:hover { color: var(--color-text); background: var(--color-surface-offset); }
+    .nav-item.active { color: var(--color-primary); background: var(--color-primary-highlight); }
+    .nav-item.active svg { color: var(--color-primary); }
+    .nav-item.disabled { color: var(--color-text-faint); cursor: default; opacity: 0.5; pointer-events: none; }
+    .nav-item__badge {
+      margin-left: auto; background: var(--color-surface-dynamic);
+      padding: 1px 6px; border-radius: var(--radius-full);
+      font-size: 10px; font-weight: 600; color: var(--color-text-faint);
+    }
+    .nav-item.active .nav-item__badge { background: var(--color-primary); color: white; }
+    .soon-badge {
+      margin-left: auto; font-size: 9px; font-weight: 600; letter-spacing: 0.05em;
+      padding: 1px 5px; border-radius: var(--radius-sm);
+      background: var(--color-surface-dynamic); color: var(--color-text-faint);
+    }
+    .sidebar__progress {
+      padding: var(--space-3); border-radius: var(--radius-lg);
+      background: var(--color-surface-offset);
+      border: 1px solid oklch(from var(--color-text) l c h / 0.06);
+    }
+    .progress-label { font-size: 10px; color: var(--color-text-muted); margin-bottom: var(--space-2); font-weight: 500; }
+    .progress-bar { height: 5px; border-radius: var(--radius-full); background: var(--color-surface-dynamic); overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: var(--radius-full); transition: width 0.6s cubic-bezier(0.16,1,0.3,1); }
+    .progress-pct { font-size: 10px; color: var(--color-text-faint); margin-top: 4px; text-align: right; }
+
+    /* === MAIN === */
+    .main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+    /* === HEADER === */
+    .header {
+      height: var(--header-h); background: var(--color-surface);
+      border-bottom: 1px solid var(--color-divider);
+      display: flex; align-items: center; gap: var(--space-4);
+      padding: 0 var(--space-6); position: sticky; top: 0; z-index: 40;
+    }
+    .header__breadcrumb { display: flex; align-items: center; gap: var(--space-2); flex: 1; min-width: 0; }
+    .header__crumb { font-size: var(--text-xs); color: var(--color-text-faint); }
+    .header__crumb-sep { color: var(--color-text-faint); }
+    .header__title { font-size: var(--text-sm); font-weight: 600; color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .header__actions { display: flex; align-items: center; gap: var(--space-2); flex-shrink: 0; }
+    .icon-btn {
+      width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+      border-radius: var(--radius-md); color: var(--color-text-muted);
+      border: 1px solid oklch(from var(--color-text) l c h / 0.1);
+    }
+    .icon-btn:hover { color: var(--color-text); background: var(--color-surface-offset); }
+    .avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--color-primary-highlight); color: var(--color-primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.03em;
+    }
+
+    /* === CONTENT === */
+    .content { flex: 1; padding: var(--space-6); overflow-y: auto; }
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* === DASHBOARD === */
+    .page-title {
+      font-family: var(--font-display); font-size: var(--text-xl);
+      color: var(--color-text); font-weight: 400; letter-spacing: -0.01em;
+      margin-bottom: var(--space-1);
+    }
+    .page-sub { font-size: var(--text-xs); color: var(--color-text-muted); margin-bottom: var(--space-6); }
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); margin-bottom: var(--space-6); }
+    .kpi-card {
+      background: var(--color-surface); border: 1px solid oklch(from var(--color-text) l c h / 0.07);
+      border-radius: var(--radius-xl); padding: var(--space-5); box-shadow: var(--shadow-sm);
+    }
+    .kpi-card__label { font-size: var(--text-xs); color: var(--color-text-muted); margin-bottom: var(--space-2); font-weight: 500; }
+    .kpi-card__value { font-size: var(--text-xl); font-weight: 600; color: var(--color-text); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 1; }
+    .kpi-card__sub { font-size: 10px; color: var(--color-text-faint); margin-top: var(--space-1); }
+    .kpi-card__delta { display: inline-flex; align-items: center; gap: 3px; font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: var(--radius-full); margin-top: var(--space-2); }
+    .delta-up { background: var(--color-success-highlight); color: var(--color-success); }
+    .card {
+      background: var(--color-surface); border: 1px solid oklch(from var(--color-text) l c h / 0.07);
+      border-radius: var(--radius-xl); box-shadow: var(--shadow-sm);
+    }
+    .card__header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: var(--space-4) var(--space-5); border-bottom: 1px solid var(--color-divider);
+    }
+    .card__title { font-size: var(--text-sm); font-weight: 600; color: var(--color-text); }
+    .card__body { padding: var(--space-5); }
+
+    /* Dashboard stage rows */
+    .dash-stage-row {
+      display: flex; align-items: center; gap: var(--space-3);
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid oklch(from var(--color-text) l c h / 0.05);
+      cursor: pointer;
+    }
+    .dash-stage-row:last-child { border-bottom: none; }
+    .dash-stage-row:hover .dash-stage-name { color: var(--color-primary); }
+    .dash-stage-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .dash-stage-info { flex: 1; min-width: 0; }
+    .dash-stage-name { font-size: var(--text-xs); font-weight: 600; color: var(--color-text); margin-bottom: 3px; transition: color var(--transition); }
+    .dash-stage-meta { font-size: 10px; color: var(--color-text-faint); }
+    .dash-stage-bar { width: 100px; flex-shrink: 0; }
+    .dash-stage-pct { font-size: 10px; color: var(--color-text-muted); font-variant-numeric: tabular-nums; text-align: right; margin-bottom: 3px; }
+    .mini-progress { height: 4px; border-radius: var(--radius-full); background: var(--color-surface-dynamic); overflow: hidden; }
+    .mini-fill { height: 100%; border-radius: var(--radius-full); transition: width 0.5s ease; }
+
+    /* === ROADMAP === */
+    .roadmap-header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-6); }
+    .track-badge-lg {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      padding: var(--space-1) var(--space-3); border-radius: var(--radius-full);
+      font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: var(--space-3);
+    }
+    .badge-blue { background: var(--color-blue-highlight); color: var(--color-blue); }
+
+    /* Legend */
+    .legend {
+      display: flex; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-4);
+      padding: var(--space-3) var(--space-4);
+      background: var(--color-surface); border: 1px solid oklch(from var(--color-text) l c h / 0.07);
+      border-radius: var(--radius-lg);
+    }
+    .legend-item { display: flex; align-items: center; gap: var(--space-2); font-size: 10px; color: var(--color-text-faint); }
+    .legend-dot { width: 8px; height: 8px; border-radius: var(--radius-sm); flex-shrink: 0; }
+
+    /* Stage cards */
+    .stage-list { display: flex; flex-direction: column; gap: var(--space-3); }
+    .stage-card {
+      background: var(--color-surface); border: 1px solid oklch(from var(--color-text) l c h / 0.07);
+      border-radius: var(--radius-xl); box-shadow: var(--shadow-sm); overflow: hidden;
+    }
+    .stage-card--active { border-color: oklch(from var(--color-primary) l c h / 0.25); box-shadow: 0 0 0 3px oklch(from var(--color-primary) l c h / 0.06), var(--shadow-sm); }
+    .stage-header {
+      display: flex; align-items: center; gap: var(--space-3);
+      padding: var(--space-4) var(--space-5); cursor: pointer; user-select: none;
+    }
+    .stage-header:hover { background: var(--color-surface-offset); }
+    .stage-num-box {
+      width: 30px; height: 30px; border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--text-xs); font-weight: 700; flex-shrink: 0;
+    }
+    .stage-info { flex: 1; min-width: 0; }
+    .stage-title-row { display: flex; align-items: baseline; gap: var(--space-3); }
+    .stage-title { font-size: var(--text-sm); font-weight: 600; color: var(--color-text); transition: color var(--transition); }
+    .stage-header:hover .stage-title { color: var(--color-primary); }
+    .stage-week { font-size: 10px; font-weight: 600; color: var(--color-text-faint); letter-spacing: 0.03em; }
+    .stage-desc { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: 2px; }
+    .stage-prog { display: flex; align-items: center; gap: var(--space-2); flex-shrink: 0; }
+    .stage-count { font-size: 10px; font-weight: 600; color: var(--color-text-faint); font-variant-numeric: tabular-nums; }
+    .stage-count.done { color: var(--color-success); }
+    .stage-status-badge {
+      font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: var(--radius-full); flex-shrink: 0;
+    }
+    .status-complete { background: var(--color-success-highlight); color: var(--color-success); }
+    .status-active { background: var(--color-primary-highlight); color: var(--color-primary); }
+    .status-upcoming { background: var(--color-surface-dynamic); color: var(--color-text-faint); }
+    .stage-chevron { flex-shrink: 0; color: var(--color-text-faint); transition: transform 0.2s ease; }
+    .stage-chevron.open { transform: rotate(90deg); }
+
+    /* Stage body / items */
+    .stage-body { border-top: 1px solid var(--color-divider); }
+    .stage-body.hidden { display: none; }
+
+    .item-row {
+      display: flex; align-items: flex-start; gap: var(--space-3);
+      padding: var(--space-3) var(--space-5); transition: background var(--transition);
+    }
+    .item-row:hover { background: var(--color-surface-offset); }
+    .check-box {
+      width: 17px; height: 17px; flex-shrink: 0; border-radius: var(--radius-sm);
+      border: 1.5px solid oklch(from var(--color-text) l c h / 0.25);
+      background: transparent; display: flex; align-items: center; justify-content: center;
+      margin-top: 2px; transition: all var(--transition); cursor: pointer;
+    }
+    .check-box.checked { border-color: transparent; }
+    .check-box:hover { border-color: oklch(from var(--color-text) l c h / 0.4); }
+    .item-body { flex: 1; min-width: 0; cursor: pointer; }
+    .item-text { font-size: var(--text-xs); color: var(--color-text-muted); line-height: 1.5; }
+    .item-text.done { color: var(--color-text-faint); text-decoration: line-through; }
+    .item-indicators { display: flex; align-items: center; gap: var(--space-2); margin-top: 4px; }
+    .ind-pill {
+      font-size: 9px; font-weight: 600; padding: 1px 6px; border-radius: var(--radius-sm);
+      letter-spacing: 0.03em;
+    }
+    .ind-pill.res { background: var(--color-blue-highlight); color: var(--color-blue); }
+    .ind-pill.note { background: var(--color-gold-highlight); color: var(--color-gold); }
+    .item-chevron {
+      flex-shrink: 0; color: var(--color-text-faint); display: flex; align-items: center;
+      padding-left: var(--space-2); transition: color var(--transition); margin-top: 3px;
+    }
+    .item-row:hover .item-chevron { color: var(--color-text-muted); }
+
+    /* Footer */
+    .roadmap-footer {
+      margin-top: var(--space-6); padding: var(--space-4) var(--space-5);
+      border: 1px solid oklch(from var(--color-text) l c h / 0.07);
+      border-radius: var(--radius-xl); background: var(--color-surface);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-3);
+    }
+    .footer-info { font-size: var(--text-xs); color: var(--color-text-faint); }
+    .footer-info small { display: block; font-size: 10px; margin-top: 2px; }
+    .reset-btn {
+      display: inline-flex; align-items: center; gap: var(--space-1);
+      background: var(--color-error-highlight); border: 1px solid oklch(from var(--color-error) l c h / 0.2);
+      color: var(--color-error); padding: var(--space-2) var(--space-4); border-radius: var(--radius-md);
+      font-size: var(--text-xs); font-weight: 500; transition: all var(--transition);
+    }
+    .reset-btn:hover { background: oklch(from var(--color-error) l c h / 0.15); }
+
+    /* === DETAIL PAGE === */
+    #detail-page {
+      display: none; position: fixed; inset: 0; z-index: 100;
+      background: var(--color-bg); overflow-y: auto;
+      opacity: 0; transition: opacity 0.2s ease;
+    }
+    #detail-page.open { opacity: 1; }
+    .dp-top-bar { height: 4px; flex-shrink: 0; }
+    .dp-nav {
+      max-width: 720px; margin: 0 auto; padding: var(--space-5) var(--space-6) 0;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .dp-back {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      font-size: var(--text-xs); font-weight: 500;
+      color: var(--color-text-muted); background: none; border: none; padding: 0;
+      transition: color var(--transition); cursor: pointer;
+    }
+    .dp-back:hover { color: var(--color-text); }
+    .dp-stage-pill {
+      font-size: 10px; font-weight: 600;
+      padding: 3px var(--space-3); border-radius: var(--radius-md); letter-spacing: 0.03em;
+    }
+    .dp-content { max-width: 720px; margin: 0 auto; padding: var(--space-8) var(--space-6) var(--space-16); }
+    .dp-task-title {
+      font-family: var(--font-display); font-size: var(--text-xl); font-weight: 400; color: var(--color-text);
+      line-height: 1.35; margin-bottom: var(--space-5); letter-spacing: -0.01em;
+    }
+    .dp-complete-btn {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      padding: var(--space-2) var(--space-4); border-radius: var(--radius-md); margin-bottom: var(--space-8);
+      font-size: var(--text-xs); font-weight: 500;
+      border: 1.5px solid; transition: all var(--transition); cursor: pointer;
+    }
+    .dp-complete-btn.incomplete {
+      background: var(--color-surface); border-color: oklch(from var(--color-text) l c h / 0.12);
+      color: var(--color-text-muted);
+    }
+    .dp-complete-btn.incomplete:hover {
+      background: var(--color-surface-offset); border-color: oklch(from var(--color-text) l c h / 0.2);
+      color: var(--color-text);
+    }
+    .dp-complete-btn.complete {
+      background: var(--color-success-highlight); border-color: oklch(from var(--color-success) l c h / 0.25);
+      color: var(--color-success);
+    }
+    .dp-complete-btn.complete:hover {
+      background: oklch(from var(--color-success) l c h / 0.08); border-color: oklch(from var(--color-success) l c h / 0.15);
+    }
+    .dp-divider { border: none; border-top: 1px solid var(--color-divider); margin-bottom: var(--space-8); }
+    .dp-context-block { margin-bottom: var(--space-8); }
+    .dp-context-p { font-size: var(--text-xs); line-height: 1.8; color: var(--color-text-muted); margin-bottom: var(--space-4); }
+    .dp-context-p:last-child { margin-bottom: 0; }
+    .dp-section { margin-bottom: var(--space-8); }
+    .dp-section-label {
+      font-size: 10px; font-weight: 700; color: var(--color-text-faint);
+      text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: var(--space-3);
+    }
+    .dp-res-card {
+      display: flex; align-items: flex-start; gap: var(--space-3);
+      padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg);
+      background: var(--color-surface); border: 1px solid oklch(from var(--color-text) l c h / 0.07);
+      margin-bottom: var(--space-2); font-size: var(--text-xs); line-height: 1.5;
+      transition: background var(--transition);
+    }
+    .dp-res-card:hover { background: var(--color-surface-offset); }
+    .dp-res-card a { color: var(--color-blue); transition: color var(--transition); }
+    .dp-res-card a:hover { color: var(--color-primary); }
+    .dp-res-card.int-card { background: oklch(from var(--color-success) l c h / 0.04); border-color: oklch(from var(--color-success) l c h / 0.1); }
+    .dp-res-card.int-card .res-name { color: var(--color-success); }
+    .dp-res-card.int-card a { color: var(--color-success); }
+    .int-badge {
+      font-size: 9px; font-weight: 600;
+      background: var(--color-success-highlight); color: var(--color-success);
+      border: 1px solid oklch(from var(--color-success) l c h / 0.15);
+      padding: 1px 5px; border-radius: var(--radius-sm); margin-left: var(--space-2);
+      letter-spacing: 0.03em; vertical-align: middle;
+    }
+    .dp-note-ta {
+      width: 100%; min-height: 160px;
+      background: var(--color-surface); border: 1px solid oklch(from var(--color-text) l c h / 0.1);
+      border-radius: var(--radius-lg); color: var(--color-text-muted);
+      font-family: var(--font-body); font-size: var(--text-xs); line-height: 1.7;
+      padding: var(--space-3) var(--space-4); resize: vertical; outline: none;
+      transition: border-color var(--transition); box-sizing: border-box;
+    }
+    .dp-note-ta:focus { border-color: var(--color-primary); color: var(--color-text); box-shadow: 0 0 0 2px oklch(from var(--color-primary) l c h / 0.1); }
+    .dp-note-ta::placeholder { color: var(--color-text-faint); }
+    .dp-note-row { display: flex; align-items: center; justify-content: space-between; margin-top: var(--space-2); }
+    .dp-note-hint { font-size: 10px; color: var(--color-text-faint); }
+    .note-saved { font-size: 10px; font-weight: 600; color: var(--color-success); opacity: 0; transition: opacity 0.3s ease; }
+    .note-saved.show { opacity: 1; }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 900px) {
+      .sidebar { transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; }
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+      .content { padding: var(--space-4); }
+      .item-row { padding: var(--space-3) var(--space-4); }
+      .stage-header { padding: var(--space-3) var(--space-4); }
+      .dp-content { padding: var(--space-6) var(--space-4) var(--space-12); }
+      .dp-nav { padding: var(--space-4) var(--space-4) 0; }
+      .stage-prog { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__top">
+      <a class="sidebar__logo" href="#" onclick="return false">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="7" fill="var(--color-primary)"/>
+          <path d="M22 10.5C20.2 8.9 17.8 8 15.2 8C9.7 8 6 11.9 6 16.5C6 21.1 9.7 25 15.2 25C17.8 25 20.2 24.1 22 22.5" stroke="white" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+          <path d="M18 13L22 10.5L25 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.7"/>
+        </svg>
+        <span class="sidebar__logo-name">Coursa</span>
+      </a>
+      <button class="icon-btn" data-theme-toggle style="width:28px;height:28px;border:none;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+    <div class="sidebar__company">
+      <strong>Goldfish &amp; Bay</strong>
+      Hydraulic Design Engineering
+    </div>
+
+    <div class="sidebar__section">
+      <div class="sidebar__section-label">Overview</div>
+      <button class="nav-item active" id="nav-dashboard" onclick="showPage('dashboard')">
+        <i data-lucide="layout-dashboard" width="14" height="14"></i> Dashboard
+      </button>
+    </div>
+
+    <div class="sidebar__section">
+      <div class="sidebar__section-label">Tracks</div>
+      <button class="nav-item" id="nav-roadmap" onclick="showPage('roadmap')">
+        <i data-lucide="map" width="14" height="14"></i>
+        <span style="flex:1;text-align:left">Intro Engineer</span>
+        <span class="nav-item__badge" id="sidebar-pct">0%</span>
+      </button>
+      <button class="nav-item disabled" disabled>
+        <i data-lucide="compass" width="14" height="14"></i>
+        <span style="flex:1;text-align:left">Intermediate</span>
+        <span class="soon-badge">SOON</span>
+      </button>
+      <button class="nav-item disabled" disabled>
+        <i data-lucide="award" width="14" height="14"></i>
+        <span style="flex:1;text-align:left">Senior</span>
+        <span class="soon-badge">SOON</span>
+      </button>
+    </div>
+
+    <div style="margin-top:auto;padding:0 var(--space-4) var(--space-3)">
+      <div class="sidebar__progress">
+        <div class="progress-label">Track Progress</div>
+        <div class="progress-bar"><div class="progress-fill" id="sidebar-fill" style="width:0%;background:var(--color-primary)"></div></div>
+        <div class="progress-pct" id="sidebar-fill-pct">0%</div>
+      </div>
+    </div>
+
+    <div style="padding:var(--space-3) var(--space-4);border-top:1px solid var(--color-divider);display:flex;align-items:center;gap:var(--space-3)">
+      <div class="avatar">AH</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:11px;font-weight:600;color:var(--color-text)">Ahmed H.</div>
+        <div style="font-size:10px;color:var(--color-text-faint)">Graduate Engineer</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="header">
+      <button class="icon-btn" style="display:none;border:none" id="hamburger" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <i data-lucide="menu" width="16" height="16"></i>
+      </button>
+      <div class="header__breadcrumb">
+        <span class="header__crumb" id="breadcrumb-section"></span>
+        <span class="header__crumb-sep" id="breadcrumb-sep"></span>
+        <span class="header__title" id="breadcrumb-page">Dashboard</span>
+      </div>
+      <div class="header__actions">
+        <div class="avatar">AH</div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- DASHBOARD PAGE -->
+      <div class="page active" id="page-dashboard">
+        <h1 class="page-title" id="dash-greeting">Good afternoon</h1>
+        <p class="page-sub" id="dash-sub">Intro Engineer Track &middot; 12-week programme</p>
+        <div class="kpi-grid" id="kpi-grid"></div>
+        <div class="card">
+          <div class="card__header">
+            <span class="card__title">Stage Progress</span>
+            <span style="font-size:10px;color:var(--color-text-faint)">4 stages</span>
+          </div>
+          <div class="card__body" id="dash-stage-list"></div>
+        </div>
+      </div>
+
+      <!-- ROADMAP PAGE -->
+      <div class="page" id="page-roadmap">
+        <div class="roadmap-header">
+          <div>
+            <div class="track-badge-lg badge-blue">
+              <i data-lucide="graduation-cap" width="12" height="12"></i> Intro Engineer
+            </div>
+            <h1 class="page-title">Onboarding Roadmap</h1>
+            <p class="page-sub">A 12-week structured learning path from orientation to independent contribution. Work through each stage, tick off tasks, and use the notes field to record your reflections.</p>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div style="font-size:var(--text-xl);font-weight:600;color:var(--color-text);font-variant-numeric:tabular-nums;letter-spacing:-0.02em" id="roadmap-pct">0%</div>
+            <div style="font-size:10px;color:var(--color-text-faint)">complete</div>
+            <div style="width:120px;margin-top:var(--space-2)">
+              <div class="progress-bar"><div class="progress-fill" id="roadmap-fill" style="width:0%;background:var(--color-primary)"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--color-blue)"></div>External resource</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--color-success)"></div>Internal document</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--color-gold)"></div>Reflection note</div>
+        </div>
+
+        <div class="stage-list" id="stage-list"></div>
+
+        <div class="roadmap-footer">
+          <div class="footer-info">
+            Goldfish &amp; Bay — Onboarding Track &middot; Pilot v0.1
+            <small>Progress and notes save automatically in your browser</small>
+          </div>
+          <button class="reset-btn" id="reset-btn">
+            <i data-lucide="rotate-ccw" width="12" height="12" style="display:inline;vertical-align:-2px"></i>
+            Reset All
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- DETAIL PAGE -->
+<div id="detail-page">
+  <div class="dp-top-bar" id="dp-top-bar"></div>
+  <div class="dp-nav">
+    <button class="dp-back" onclick="closeDetail()">
+      <i data-lucide="arrow-left" width="14" height="14"></i>
+      Back to Roadmap
+    </button>
+    <span class="dp-stage-pill" id="dp-stage-pill"></span>
+  </div>
+  <div class="dp-content">
+    <div class="dp-task-title" id="dp-task-title"></div>
+    <button class="dp-complete-btn incomplete" id="dp-complete-btn" onclick="toggleFromPanel()">
+      <i data-lucide="square" width="14" height="14"></i> Mark as complete
+    </button>
+    <hr class="dp-divider">
+    <div class="dp-context-block" id="dp-context-block"></div>
+    <div class="dp-section" id="dp-res-section">
+      <div class="dp-section-label">Resources</div>
+      <div id="dp-res-list"></div>
+    </div>
+    <div class="dp-section">
+      <div class="dp-section-label">Reflection Note</div>
+      <textarea class="dp-note-ta" id="dp-note-ta" placeholder="Write your reflection, key takeaway, or question here..." oninput="onPanelNoteInput()"></textarea>
+      <div class="dp-note-row">
+        <span class="dp-note-hint">Auto-saves as you type</span>
+        <span class="note-saved" id="dp-saved-indicator">Saved</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════════
+// DATA — all V6 content preserved
+// ══════════════════════════════════════════════════════════════════════════
+const ROADMAP = [
+  {
+    id:'foundations', stage:1,
+    title:'Foundations', timeframe:'Week 1\u20132',
+    desc:'Orientation, hydraulic services introduction, core building services hydraulics principles and regulatory framework',
+    color:'#3B82F6',
+    items:[
+      { id:'f1', text:'Orientation',
+        resources:[
+          {label:'Goldfish & Bay | About us', url:'https://www.goldfishandbay.com.au/about', type:'ext'},
+        ],
+        context:[
+          'Goldfish & Bay is a multi-disciplinary engineering firm that is a movement for creative excellence in modern, solutions focused designs whilst balancing the innate need for project aesthetic. We produce high quality multi-disciplinary building design services, modelling, planning and advisory covering all industry sectors such as government, health infrastructure, sustainability, commercial and residential and mixed use.',
+          'Welcome to the Hydraulics the team! The team is one of the core service lines at Goldfish & Bay. Hydraulic scopes typically include sanitary plumbing design, potable water supply, stormwater systems, gas services, and fire hose reel systems, with detailed hydraulic documentation and coordination with other consultants.',
+          'The deliverables produced by a hydraulics consultant typically include hydraulic schematic drawings, a hydraulic design report (documenting calculations and standard compliance), a specification document, and a signed hydraulic engineering certificate submitted to the building certifier. Understanding this output from day one helps you see how every calculation and drawing decision feeds into a real approval.'
+        ]},
+      { id:'f2', text:'Regulatory Framework \u2014 Overview',
+        resources:[
+          { label:'NCC 2022 \u2014 Plumbing Code of Australia (Volume 3)', url:'https://ncc.abcb.gov.au/editions/ncc-2022', type:'ext' },
+          { label:'NSW Fair Trading \u2014 Plumbing and Drainage Licensing', url:'https://www.fairtrading.nsw.gov.au/trades-and-businesses/construction-and-trade-licensing/plumbing-and-drainage', type:'ext' },
+        ],
+        context:[
+          'All hydraulic design work in NSW sits within a layered regulatory framework. At the top is the National Construction Code (NCC), which sets overarching performance requirements for all building and plumbing services. Below this, Australian Standards \u2014 primarily the AS/NZS 3500 series \u2014 provide the Deemed-to-Satisfy (DtS) compliance pathway. Sitting alongside these are authority-specific requirements from Sydney Water and Jemena, which are mandatory for any works connecting to their respective networks.',
+          'The hierarchy works in practice as follows: your design must satisfy the NCC performance requirements, your methodology must follow AS/NZS 3500 as the DtS pathway, and before any connection is approved, Sydney Water or Jemena will check compliance with their own technical standards on top of that. Failing at any layer \u2014 even if the AS/NZS 3500 calculations are correct \u2014 can result in a rejected application, a delayed connection, or a legal liability against the practice.',
+          'In NSW, all hydraulic design must be produced by or under the supervision of a licensed hydraulic engineer. The certifier will require a signed hydraulic engineering certificate confirming NCC and AS/NZS 3500 compliance before issuing a Construction Certificate (CC). Understanding this framework from day one helps you see why every calculation, drawing notation, and design decision has a compliance purpose behind it.',
+        ]},
+      { id:'f3', text:'NCC & BCA \u2014 National Construction Code structure and how it governs hydraulic design',
+        resources:[
+          { label:'NCC 2022 \u2014 Volume 1 Building Code of Australia (ABCB)', url:'https://ncc.abcb.gov.au/editions/ncc-2022', type:'ext' },
+          { label:'NCC 2022 \u2014 Volume 3 Plumbing Code of Australia (ABCB)', url:'https://ncc.abcb.gov.au/editions/ncc-2022', type:'ext' },
+          { label:'Regulatory Framework NCC 2022 \u2014 VBA Reference Sheet', url:'https://www.vba.vic.gov.au/__data/assets/pdf_file/0019/163711/Plumbing-RF-01-Regulatory-Framework-NCC-2022-CURRENT.pdf', type:'ext' },
+        ],
+        context:[
+          'The National Construction Code (NCC) is Australia\'s primary technical instrument governing the design and construction of buildings. It is published by the Australian Building Codes Board (ABCB) and adopted by each state and territory. It consists of three volumes: Volume 1 covers Class 2\u20139 buildings (commercial, multi-residential, institutional), Volume 2 covers Class 1 and 10 buildings (houses and sheds), and Volume 3 is the Plumbing Code of Australia (PCA), which governs plumbing and drainage across all building classes. Volume 3 is the core NCC reference for hydraulic engineers.',
+          'The NCC is a performance-based code. This means buildings must satisfy defined Performance Requirements, and compliance can be demonstrated via two pathways: a Deemed-to-Satisfy (DtS) solution, where the design follows prescriptive standards referenced by the NCC (primarily AS/NZS 3500 for hydraulics), or a Performance Solution, where an alternative approach is justified through engineering analysis. In practice, almost all hydraulic design uses the DtS pathway \u2014 meaning compliance with AS/NZS 3500 equals compliance with the NCC, unless the design departs from the standard in any way.',
+          'The BCA (Building Code of Australia) is the legacy name for Volumes 1 and 2 of the NCC \u2014 you will still hear it used interchangeably with NCC in practice, particularly by architects and certifiers. For hydraulics specifically, the relevant NCC section is Part H of Volume 1 (or Volume 3 / PCA), which references AS/NZS 3500, AS 2118 (automatic fire sprinkler systems), AS 2419 (fire hydrant systems), and AS 1221 (fire hose reels) as DtS solutions. Your role as hydraulic engineer is to ensure the design satisfies these referenced standards so the certifier can issue the Construction Certificate.',
+        ]},
+      { id:'f4', text:'AS/NZS 3500 Standards \u2014 the four-part suite governing all hydraulic design',
+        resources:[
+          { label:'AS/NZS 3500 Standards Overview \u2014 ABLIS', url:'https://ablis.business.gov.au/service/act/as-nzs-3500-plumbing-and-drainage-standards/3738', type:'ext' },
+          { label:'Plumbing and Drainage Standards Notes', url:null, type:'int' },
+        ],
+        context:[
+          'AS/NZS 3500 is the primary Australian and New Zealand standard for plumbing and drainage, and it is the backbone of all hydraulic design at Goldfish & Bay. It is referenced by the NCC as the Deemed-to-Satisfy pathway, meaning a design that follows AS/NZS 3500 is accepted by building certifiers without additional engineering justification. The suite is divided into four parts, each governing a distinct hydraulic system: Part 1 \u2014 Water Services, Part 2 \u2014 Sanitary Plumbing and Drainage, Part 3 \u2014 Stormwater Drainage, and Part 4 \u2014 Heated Water Services.',
+          'AS/NZS 3500.1 (Water Services) governs the cold water supply system from the street main connection through to each outlet fitting \u2014 covering pipe materials, jointing, fixture unit ratings, sizing methodology, pressure and velocity limits, backflow prevention, and isolation valve requirements. AS/NZS 3500.2 (Sanitary Plumbing and Drainage) covers all drainage above and below ground, including fixture unit ratings, pipe gradients, stack and branch sizing, trap requirements, and vent system design. These two parts are the most frequently referenced on a typical commercial project.',
+          'AS/NZS 3500.3 (Stormwater Drainage) governs drainage of rainwater from roofs and paved surfaces to the legal point of discharge \u2014 including eaves gutter, box gutter, downpipe, and surface drain sizing using rainfall intensity data. AS/NZS 3500.4 (Heated Water Services) covers hot water system design including storage, heat sources, temperature controls to prevent Legionella growth (minimum 60\u00b0C storage), and tempering valve requirements to prevent scalding at outlets (maximum 50\u00b0C for residential, 45\u00b0C for aged care). Knowing which part to open for a given design question is one of the first practical skills to develop as a hydraulics engineer.',
+        ]},
+      { id:'f5', text:'Authorities \u2014 Sydney Water and Jemena requirements for network connections',
+        resources:[
+          { label:'Sydney Water \u2014 Standards and Specifications for Developers', url:'https://www.sydneywater.com.au/plumbing-building-developing/provider-information/standards-specifications.html', type:'ext' },
+          { label:'Sydney Water \u2014 Applications and Approvals', url:'https://www.sydneywater.com.au/plumbing-building-developing/building/applications-approvals.html', type:'ext' },
+          { label:'Jemena \u2014 Network Operator Rules (NOR)', url:'https://www.jemena.com.au/siteassets/asset-folder/documents/gas/jgn-network-operator-rules/jemena-network-operator-rules-v3.pdf', type:'ext' },
+        ],
+        context:[
+          'Sydney Water is the primary water and wastewater authority for Greater Sydney. Any building connecting to the Sydney Water network \u2014 whether for potable water supply, sewer discharge, or trade waste \u2014 must comply with their Technical Standards and Specifications in addition to AS/NZS 3500. The most important process to be aware of early in a project is the Section 73 Certificate (under the Sydney Water Act), which confirms that adequate water and sewer infrastructure capacity exists to service the development. Without a Section 73, a Construction Certificate cannot be issued \u2014 it is one of the most common project hold-ups when left too late in the design process.',
+          'Sydney Water also has specific requirements for backflow prevention devices, water metering configurations, and water recycling where applicable (e.g. BASIX-mandated rainwater or greywater systems). Their approved materials list specifies which products can be used for connections to their network \u2014 using non-approved materials is a common reason for connection rejections. Where Sydney Water infrastructure augmentation is required (e.g. upsizing a street main to service a large development), the developer funds the works and Sydney Water oversees construction.',
+          'Jemena operates the natural gas distribution network across NSW. For any project that includes gas services, hydraulic design of the internal gas installation must comply with AS/NZS 5601.1 (Gas Installations) and the Jemena Network Operator Rules (NOR). A Network Access Application must be submitted to Jemena for new or upgraded gas connections, and their rules govern the supply pressure tiers, Minimum Delivery Pressure (MDP) at the meter, and the maximum allowable pressure drop across the internal pipework. Gas pressure and available capacity from Jemena must be confirmed early in the design phase \u2014 do not size internal gas pipework until you have a confirmed supply pressure, as an incorrect assumption here invalidates the entire sizing calculation.',
+        ]},
+      { id:'f6', text:'Company Systems \u2014 File Naming Convention and Folder Structure',
+        resources:[
+          { label:'Goldfish & Bay | Internal Project Folder Template', url:null, type:'int' },
+        ],
+        context:[
+          'Every project at Goldfish & Bay lives within a structured folder hierarchy. Understanding this from day one means your files are always findable, your drawings land in the right location, and your work is immediately usable by the rest of the team. The typical folder structure separates incoming correspondence, outgoing correspondence, drawings, calculations, specifications, and authority submissions \u2014 each with its own sub-folder convention.',
+          'Drawing file names follow a standard format that encodes the project number, discipline, drawing type, sheet number, and revision. A typical hydraulics drawing file name looks like: [ProjectNo]-H-[DrawingType]-[SheetNo]-[Rev]. For example: 2401-H-WS-001-A, where 2401 is the project number, H is hydraulics, WS is water services, 001 is the sheet number, and A is the revision. Never save a file outside this convention \u2014 it breaks transmittal tracking and document control.',
+          'When starting on a new project, always copy from the office template folder rather than creating files from scratch. This ensures your drawings open with the correct title block, layers, line weights, and viewport configuration pre-loaded. Ask your supervisor for the template file path on your first day and save it somewhere accessible \u2014 you will use it on every new project.',
+        ]},
+      { id:'f7', text:'Company Systems \u2014 CAD Environment: AutoCAD and Revit',
+        resources:[
+          { label:'Autodesk AutoCAD \u2014 Official Learning Resources', url:'https://www.autodesk.com/support/technical/article/caas/sfdcarticles/sfdcarticles/AutoCAD-tutorials.html', type:'ext' },
+          { label:'Autodesk Revit MEP \u2014 Getting Started', url:'https://www.autodesk.com/products/revit/overview', type:'ext' },
+          { label:'Goldfish & Bay | CAD Layer Standards and Template Guide', url:null, type:'int' },
+        ],
+        context:[
+          'Goldfish & Bay uses two primary CAD environments depending on the project type. AutoCAD is used for 2D hydraulic drafting \u2014 water services layouts, drainage layouts, stormwater layouts, schematic diagrams, and detail drawings. Revit is used on BIM-coordinated projects where hydraulic services are modelled in 3D and coordinated with the architectural, structural, and mechanical models. You will use both; which one you open first on a given project depends on the delivery method specified in the project brief.',
+          'In AutoCAD, hydraulic drawings are produced using the office layer standard \u2014 each service type (cold water, hot water, sanitary drainage, stormwater, gas, fire) has a designated layer with a defined colour, line type, and line weight. Never draw on Layer 0 or create ad-hoc layers. Pipe runs are drawn as polylines on the correct layer, with size annotations placed on the text layer. Schematics are drawn at a standard scale within the title block viewport. Familiarise yourself with the office AutoCAD template before touching a project drawing.',
+          'In Revit, hydraulic systems are modelled using pipe families assigned to the correct MEP system type. The Revit model is linked to the architectural base model and coordinated against the structural and mechanical models using clash detection. Views and sheets are set up from the office Revit template \u2014 never create views outside the prescribed view organisation structure. On BIM projects, all drawings issued to other consultants are extracted from the Revit model, not drawn separately in AutoCAD. If you are new to Revit MEP, flag this to your supervisor early so training can be arranged.',
+        ]},
+      { id:'f8', text:'Company Systems \u2014 Bluebeam Revu for PDF Review and Drawing Markups',
+        resources:[
+          { label:'Bluebeam Revu \u2014 Official Tutorial Library', url:'https://www.bluebeam.com/learn/', type:'ext' },
+          { label:'Bluebeam University \u2014 Free Training Courses', url:'https://university.bluebeam.com/', type:'ext' },
+        ],
+        context:[
+          'Bluebeam Revu is the industry-standard PDF tool used across the construction and engineering sector for issuing, reviewing, and marking up drawings. At Goldfish & Bay, Bluebeam is used to mark up drawings received from other consultants, annotate PDFs for internal review before issue, add review comments to hydraulic drawings, and process RFIs and site instruction documents. It replaces the need to print drawings for markup \u2014 all annotation is done digitally.',
+          'The core Bluebeam tools you will use daily are: the Markup tools (clouds, arrows, text boxes, stamps) for annotating drawings under review; the Measurements tool for checking dimensions and distances directly on scaled PDFs; the Snapshot tool for extracting sections of drawings into reports; and Bluebeam Studio for shared real-time collaboration on drawing sets with multiple reviewers. Markups are saved as a separate layer on the PDF, so the original drawing underneath is never altered.',
+          'When receiving a drawing set from another consultant for coordination review, create a new Bluebeam Studio Session or save the PDF to the project markups folder before opening. Add your initials and date to every markup using the Author field \u2014 this creates a clear audit trail of who raised each comment and when. When markups have been resolved, mark them as Checked in the Markups List panel. Never delete a markup, even after resolution \u2014 the record of the comment and its resolution is part of the project document trail.',
+        ]},
+      { id:'f9', text:'Company Systems \u2014 Revision Control and Drawing Issue Procedure',
+        resources:[
+          { label:'Goldfish & Bay | Drawing Issue and Transmittal Procedure', url:null, type:'int' },
+        ],
+        context:[
+          'Revision control is the process of tracking changes to drawings over the life of a project. Every time a drawing is updated and re-issued, it receives a new revision tag. Revisions are typically alphabetical for design development issues (A, B, C...) and numerical for construction issues (1, 2, 3...), though the office convention should be confirmed with your supervisor. The revision history is recorded in the revision table on the title block \u2014 each row records the revision code, date, description of change, and the initials of the drafter and checker.',
+          'Before any drawing is issued externally \u2014 to the architect, certifier, builder, or authority \u2014 it must go through an internal check. The drafter completes the drawing and issues it internally as \u201cFor Check.\u201d The checking engineer reviews for technical accuracy, standard compliance, and drawing quality, then marks up any corrections in Bluebeam. The drafter incorporates corrections, updates the revision, and the drawing is then approved for external issue. Never issue a drawing externally without a senior engineer sign-off \u2014 this is a practice liability requirement.',
+          'Drawings are issued externally via a Document Transmittal \u2014 a formal cover sheet that lists every drawing being issued, its revision, and the purpose of the issue (For Information, For Approval, For Construction, etc.). Transmittals are numbered sequentially per project and saved in the outgoing correspondence folder. When you receive drawings from other consultants, the incoming transmittal is saved in the incoming correspondence folder and the drawing set is added to the project register. Keeping this register current is a shared team responsibility \u2014 a project register that falls out of date causes coordination errors.',
+        ]},
+    ]
+  },
+  {
+    id:'technical-core', stage:2,
+    title:'Technical Core', timeframe:'Week 3\u20134',
+    desc:'Circuits, components, and standards compliance',
+    color:'#10B981',
+    items:[
+      { id:'t1', text:'Circuit symbology \u2014 read and sketch ISO 1219-compliant hydraulic schematics',
+        resources:[
+          {label:'ISO 1219-1 Hydraulic Symbol Guide', url:'https://www.iso.org/standard/68091.html', type:'ext'},
+          {label:'FluidPower.net \u2014 Interactive Symbol Library', url:'https://www.fluidpower.net/', type:'ext'},
+        ],
+        context:[
+          'Hydraulic schematics are the language of hydraulic systems. Unlike piping layout drawings, a schematic shows the function of a system \u2014 not the physical position of components \u2014 using standardised symbols defined in ISO 1219-1. Every pump, valve, actuator, filter, and pressure gauge has a specific symbol, and the way components are connected on the schematic tells you exactly how the circuit operates.',
+          'The most important symbols to learn first are: hydraulic pump (triangle pointing outward), hydraulic motor (triangle pointing inward), directional control valve (rectangle with arrows showing flow paths), pressure relief valve (arrow with a spring and drain), check valve (ball against a seat), filter (diamond), and hydraulic cylinder (rectangle with a rod). Valves are drawn in their \'normal\' (de-energised) position on the schematic, and actuation symbols (solenoid, spring, pilot) are shown at each end.',
+          'When reading a circuit, trace the flow path step by step: start at the pump outlet, follow the flow through each valve and component to the actuator, then follow the return path back to the tank. This sequential tracing approach \u2014 rather than trying to read the whole schematic at once \u2014 is how experienced engineers diagnose faults and verify circuit logic.'
+        ]},
+      { id:'t2', text:'Core components \u2014 pumps, directional/pressure/flow control valves, actuators',
+        resources:[
+          {label:'Bosch Rexroth \u2014 Hydraulic Trainer Vol. 1', url:'https://www.boschrexroth.com/', type:'ext'},
+        ],
+        context:[
+          'A hydraulic pump converts mechanical energy (from an electric motor or engine) into hydraulic flow. The most common types in industrial and building plant applications are gear pumps (simple, low cost, fixed displacement), vane pumps (quieter, moderate pressure), and piston pumps (high efficiency, variable displacement available). The pump is always the source of flow in the circuit \u2014 it does not create pressure directly; pressure is a result of resistance to flow.',
+          'Directional control valves (DCVs) route flow to different actuator ports to control direction of movement. A 4/3 valve (4 ports, 3 positions) is the most common for double-acting cylinders \u2014 it has a pressure port, a tank port, and two actuator ports, with a centre condition (open centre, closed centre, or tandem) that determines what happens when the valve is in neutral. Pressure control valves include relief valves (set the maximum system pressure), pressure-reducing valves (limit pressure to a secondary circuit), sequence valves, and counterbalance valves. Flow control valves meter the flow to an actuator to control its speed.',
+          'Actuators convert hydraulic energy back into mechanical work. Linear actuators are hydraulic cylinders \u2014 single-acting (one pressure port, spring return) or double-acting (pressure on both sides). Rotary actuators are hydraulic motors (continuous rotation) or limited-rotation actuators. When selecting components, the three key values are: maximum working pressure (must be within the rated pressure of every component), flow rate (determines actuator speed), and port sizing (must match the flow velocity guidelines for the application).'
+        ]},
+      { id:'t3', text:'Cylinder sizing \u2014 force calculations, rod buckling (Euler), cushioning selection',
+        resources:[
+          {label:'Engineers Edge \u2014 Hydraulic Cylinder Formulas', url:'https://www.engineersedge.com/hydraulic.htm', type:'ext'},
+        ],
+        context:[
+          'Cylinder force output is calculated using F = P \u00d7 A, where F is force (N), P is pressure (Pa), and A is the piston area (m\u00b2). For the extend stroke, use the full bore area (\u03c0/4 \u00d7 bore\u00b2). For the retract stroke, subtract the rod cross-section area from the bore area to get the annulus area. The ratio of extend to retract force is known as the area ratio \u2014 it also affects speed: the same flow into the annulus side produces a faster retract stroke than the same flow into the full bore side.',
+          'Rod buckling is a critical check for long-stroke cylinders under compressive load. Using Euler\'s column buckling formula, the critical buckling load depends on the rod diameter, material modulus of elasticity, unsupported length, and the end fixity condition (how the cylinder is mounted). A safety factor of at least 3.5 is typically applied to the calculated buckling load. If the applied compressive load exceeds the allowable buckling load, the rod diameter must be increased.',
+          'Cushioning slows the piston at the end of stroke to prevent impact damage. Most cylinders have optional built-in adjustable cushions \u2014 a tapered needle or spear that enters a sleeve near the end of stroke, restricting the exhaust flow and creating a braking effect. The cushion must be adjusted carefully \u2014 too tight and the cushion creates excessive back-pressure that can damage the seals; too loose and the end-of-stroke impact remains a problem.'
+        ]},
+      { id:'t4', text:'Water service pipe sizing \u2014 flow rates, probable simultaneous demand, pressure and velocity requirements per AS/NZS 3500',
+        resources:[
+          {label:'Plumbing and Drainage Standards Notes \u2014 Section 3: Sizing of Water Services (3.1 Flow Rates, 3.2 Pressure, 3.3 Velocity, 3.4 Pipe Size Limitations)', url:null, type:'int'},
+        ],
+        context:[
+          'Pipe sizing for water services under AS/NZS 3500.1 follows a structured calculation methodology. The first step is to identify all fixtures connected to the system and assign each a flow rate from the fixture flow rate table in the standard. Not all fixtures operate simultaneously \u2014 the probable simultaneous demand (PSD) method accounts for statistical diversity of use, and the total design flow is lower than the sum of all individual fixture flow rates.',
+          'Once the design flow is established for each pipe section, the pipe size is selected to meet three criteria simultaneously: the velocity must not exceed 3.0 m/s, the pressure at the most disadvantaged outlet must meet the minimum residual pressure requirement, and the pipe size must not be less than the minimum diameter specified for the number of fixtures it serves. These three checks are performed section by section, starting at the main connection and working out to the most disadvantaged outlet.',
+          'The calculation is typically presented as a pipe sizing schedule \u2014 a table listing each pipe segment, its length, the design flow, the selected pipe size, the friction loss per metre (from tables or the Darcy-Weisbach equation), the total friction loss, any fittings allowance, and the cumulative pressure available at the end of that segment. Senior engineers will review this schedule as part of the design check process, so clarity and completeness in how it is presented matters.'
+        ]},
+      { id:'t5', text:'Backflow prevention \u2014 cross-connection hazard ratings (High/Medium/Low), device types, and installation requirements',
+        resources:[
+          {label:'Plumbing and Drainage Standards Notes \u2014 Section 4: Cross-connection Control and Backflow Prevention (4.2\u20134.6)', url:null, type:'int'},
+        ],
+        context:[
+          'Cross-connection control is the prevention of contaminated water flowing backward into a potable water supply. A cross-connection occurs when a potable water pipe is connected to a system that contains or could contain non-potable water \u2014 irrigation systems, fire hydrant mains, cooling towers, or chemical dosing equipment. The degree of hazard determines the type of backflow prevention device required.',
+          'Under AS/NZS 3500.1, cross-connection hazards are rated High (direct risk of contamination with substances harmful to health \u2014 chemical dosing, reclaimed water, cooling towers), Medium (indirect risk of contamination), or Low (no significant health risk). High hazard requires a Reduced Pressure Zone (RPZ) device \u2014 the most robust backflow preventer. Medium hazard requires at minimum a double check valve assembly. Low hazard may be managed with a single check valve or an air gap.',
+          'In building services, backflow prevention devices must be installed at every point where the potable water system connects to a potentially contaminated system. They must also be installed at the property boundary where required by the water authority. All backflow prevention devices must be tested at commissioning and annually thereafter by a licensed tester, with results submitted to the water authority. Understanding where to locate these devices on a design \u2014 and which type to specify \u2014 is a frequent design decision on every commercial hydraulics project.'
+        ]},
+      { id:'t6', text:'Hose and fitting selection \u2014 pressure ratings, dash sizes, AS/NZS standards compliance',
+        resources:[
+          {label:'Gates Australia \u2014 Hose Selection Guide', url:'https://www.gates.com/au/en', type:'ext'},
+        ],
+        context:[
+          'Hydraulic hose assemblies carry fluid between components where rigid pipe cannot be used \u2014 to accommodate movement, vibration isolation, or ease of maintenance access. A hose assembly consists of the inner tube (fluid-carrying), the reinforcement layer (determines pressure rating \u2014 wire braid or spiral wound), the outer cover (abrasion and environmental protection), and the end fittings. The combination of hose and fitting must be rated for the system\'s maximum working pressure, including surge.',
+          'Hose sizing uses a \'dash\' designation \u2014 the dash number is the hose bore in sixteenths of an inch (e.g. -8 hose is 8/16 = 1/2 inch bore). Selecting the correct dash size requires checking that the flow velocity through the hose stays within acceptable limits \u2014 typically 2\u20134 m/s on pressure lines and 1\u20132 m/s on return lines. Higher velocities cause excessive pressure drop, heat generation, and hose wear.',
+          'All hose assemblies used in Australian hydraulics applications must comply with the relevant AS/NZS standards for hose and fittings. Key installation rules: hoses must not be kinked, twisted, or installed under tension; the minimum bend radius specified by the manufacturer must be respected; swivel fittings should be used where the assembly is subject to movement to prevent hose twist; and hoses must be routed away from heat sources, sharp edges, and moving components.'
+        ]},
+      { id:'t7', text:'Fire hose reel systems \u2014 AS/NZS 1221 assembly requirements, minimum water supply demand, pipework sizing and valve isolation rules',
+        resources:[
+          {label:'Installation of Fire Hose Reels \u2014 Sections 5\u20136: Assemblies and Water Supply', url:null, type:'int'},
+          {label:'Plumbing and Drainage Standards Notes \u2014 Section 6: Fire Services (links to AS2118/AS2419)', url:null, type:'int'},
+        ],
+        context:[
+          'Fire hose reel system design requires you to confirm that the water supply to the building is capable of simultaneously supplying the two most hydraulically disadvantaged reels at the required minimum flow and pressure. This is established through a hydraulic calculation that traces the flow path from the point of supply connection through the distribution pipework to the most disadvantaged reel, accounting for all friction losses and elevation changes.',
+          'The pipework distribution layout is shown on the hydraulic drawings as a schematic, with each segment labelled with its nominal diameter. The arrangement must comply with the requirements shown in the installation standard figure \u2014 typically a ring main or a branched arrangement with specific isolation valve placement. Each hose reel must be individually isolatable without affecting supply to other reels, and each reel must be visible and accessible from the protected area without travelling through the fire.',
+          'During a project review, check the following: Is the town main connection at least DN 25? Are all isolation valves padlocked open and correctly tagged? Is the pipework sized by hydraulic calculation (not assumed)? Are the most hydraulically disadvantaged reels correctly identified? Are internal above-ground pipes protected from mechanical damage? These are the compliance points most likely to be flagged by a certifier or fire safety engineer.'
+        ]},
+      { id:'t8', text:'Cold water service installation \u2014 pipe proximity rules, metallic and plastic material limitations per AS/NZS 3500',
+        resources:[
+          {label:'Plumbing and Drainage Standards Notes \u2014 Section 2: Materials and Products; Section 5: Installation of Cold-water Services', url:null, type:'int'},
+        ],
+        context:[
+          'Cold water service installation under AS/NZS 3500.1 has specific rules about pipe proximity to other services. Water service pipes must maintain minimum clearances from electrical conduit and cables (to prevent condensation from damaging cables), gas pipes (to prevent corrosion from electrolytic interaction), and sanitary drainage pipes (to prevent contamination in the event of a pipe failure or drainage overflow). These clearances are specified in the standard and must be shown on coordinated services drawings.',
+          'The permitted pipe materials for cold water services in Australia depend on the application. Copper is approved for all applications. PE-X and CPVC are approved for most applications but have temperature limitations and cannot be used for above-ground external applications in all configurations without UV protection. Galvanised steel is still found in older buildings but is no longer specified for new work in most States due to corrosion issues. The material selection section of AS/NZS 3500.1 sets out the approved combinations.',
+          'Pipe concealment rules require that all concealed pipework be pressure tested before it is covered, and that inspection openings or access panels be provided at all valves, unions, and servicing points. Pipes passing through structural elements (beams, columns, slabs) must be sleeved to allow thermal movement and must not structurally interfere with the element. These requirements are typically documented in the hydraulic specification and verified during site inspections.'
+        ]},
+      { id:'t9', text:'Power unit design basics \u2014 reservoir sizing, heat rejection, and filtration loop design',
+        resources:[
+          {label:'Eaton \u2014 Hydraulic Power Unit Design', url:'https://www.eaton.com/au/en-gb/products/hydraulics.html', type:'ext'},
+        ],
+        context:[
+          'The power unit (hydraulic power pack) is the heart of a hydraulic system \u2014 it houses the prime mover (electric motor or engine), the pump, the reservoir, and the system conditioning components (filters, heat exchangers, pressure gauges). The reservoir serves three functions: storing enough fluid to supply the actuators at maximum demand, allowing entrained air and contaminants to settle out, and acting as a heat sink to dissipate some of the system\'s heat load.',
+          'Reservoir sizing is typically expressed as a multiple of the pump\'s flow rate per minute \u2014 a reservoir holding 3\u20135 times the pump\'s per-minute delivery is a common starting point for industrial systems. The actual size depends on the thermal load (how much heat the system generates and how much can be rejected through the reservoir walls), the required fluid residence time for air and contaminant separation, and the expansion volume needed to accommodate thermal expansion of the fluid.',
+          'Heat rejection is a critical design calculation for continuous-duty systems. The total heat generated equals the input power minus the useful mechanical work output \u2014 in most hydraulic systems, 20\u201330% of input power is converted to heat. If the reservoir surface area is insufficient to reject this heat passively, an oil-to-water or oil-to-air heat exchanger (cooler) must be sized and installed in the return line. Neglecting heat rejection design is one of the most common causes of hydraulic system failures in the field.'
+        ]},
+    ]
+  },
+  {
+    id:'applied', stage:3,
+    title:'Applied Skills', timeframe:'Week 5\u20138',
+    desc:'Real project tasks under supervision',
+    color:'#F59E0B',
+    items:[
+      { id:'a1', text:'Complete a circuit design task with senior engineer review', resources:[],
+        context:[
+          'A circuit design task is where everything from Stage 1 and 2 comes together in practice. You will be given a functional requirement \u2014 for example, a double-acting cylinder that must extend at a controlled speed, hold position under load, and retract when the operator releases the control \u2014 and you must translate that requirement into a complete schematic using ISO 1219 symbols.',
+          'Start by identifying the actuator requirements (force, speed, stroke), then work backwards to select the valve configuration, pump type and size, pressure settings, and filter ratings. Sketch the circuit logic first without worrying about symbols \u2014 just map the flow path \u2014 then convert to a proper ISO 1219 schematic. A common mistake is to draw the schematic as if it is a layout drawing; a schematic should be arranged to show logic clearly, not to represent physical locations.',
+          'When your circuit is reviewed by a senior engineer, pay attention to every comment \u2014 especially questions about what happens in fault conditions (valve fails to shift, pressure relief opens, motor stalls). Experienced engineers think in failure modes, and developing that same habit early will significantly accelerate your competency growth.'
+        ]},
+      { id:'a2', text:'Produce a Bill of Materials from a hydraulic schematic', resources:[],
+        context:[
+          'A Bill of Materials (BOM) is a structured list of every component required to build the system shown on a hydraulic schematic. For each line item, the BOM typically includes: item number (matching the schematic bubble), description, manufacturer and part number, quantity, unit of measure, and sometimes unit price. A complete and accurate BOM is what the procurement team uses to order parts \u2014 errors in the BOM directly cause delays on the workshop floor.',
+          'When producing a BOM from a schematic, work methodically through the schematic from left to right and top to bottom, capturing every component including fittings, adaptors, hoses, and small items that are easy to miss. Check that every bubble on the schematic has a corresponding line in the BOM. For hose assemblies, specify the hose type and length, the fitting type at each end, and the overall assembly length.',
+          'Cross-reference the BOM against the schematic before submitting it for review. Check that pressure ratings of all components (hoses, fittings, valves, cylinder) are consistent with the system\'s maximum working pressure, including surge allowance. Any component rated below the maximum system pressure is a potential failure point that must be resolved before the design is approved for procurement.'
+        ]},
+      { id:'a3', text:'Perform pressure drop calculations for a real system \u2014 apply the AS/NZS 3500 maximum velocity limit of 3.0 m/s',
+        resources:[
+          {label:'Darcy-Weisbach for Hydraulic Lines \u2014 Engineering Toolbox', url:'https://www.engineeringtoolbox.com/darcy-weisbach-equation-d_646.html', type:'ext'},
+          {label:'Plumbing and Drainage Standards Notes \u2014 Section 3.3: Velocity Requirements', url:null, type:'int'},
+        ],
+        context:[
+          'Pressure drop calculation quantifies the energy lost as fluid flows through a pipe due to friction with the pipe wall. For hydraulic lines, the Darcy-Weisbach equation is the standard approach: \u0394P = f \u00d7 (L/D) \u00d7 (\u03c1v\u00b2/2), where f is the Darcy friction factor (from the Moody chart or Colebrook equation for turbulent flow), L is pipe length, D is internal diameter, \u03c1 is fluid density, and v is flow velocity. Fittings (elbows, tees, valves) are accounted for by converting them to an equivalent length of straight pipe.',
+          'For water services under AS/NZS 3500.1, the same principle applies. The standard provides friction loss tables for copper tube and common pipe materials, expressed as pressure drop per metre of pipe (kPa/m) at various flow rates and pipe sizes. The total friction loss for a pipe section is the loss per metre multiplied by the equivalent length (actual pipe length plus equivalent lengths for all fittings). This is the core of the pipe sizing schedule used on every water services job.',
+          'When applying the 3.0 m/s velocity limit from AS/NZS 3500.1, remember it is a maximum \u2014 not a target. Designing to the velocity limit gives you the smallest pipe size that passes the check, but may result in higher pressure losses. On long pipe runs, it is often worth sizing up one pipe diameter to reduce friction losses and improve pressure availability at the outlets. The pressure check at the most disadvantaged outlet will confirm whether the selected sizes are adequate.'
+        ]},
+      { id:'a4', text:'Apply AS/NZS 3500 pipe sizing methodology to a project \u2014 size pipes for probable simultaneous demand and verify pressure at outlets',
+        resources:[
+          {label:'Plumbing and Drainage Standards Notes \u2014 Sections 3.1\u20133.4: Sizing, Pressure, Velocity, and Pipe Size Limitations', url:null, type:'int'},
+        ],
+        context:[
+          'Applying the AS/NZS 3500.1 pipe sizing methodology to a real project means taking an architectural floor plan, identifying all the fixtures, assigning fixture flow rates, grouping them into distribution branches, calculating probable simultaneous demand for each branch, selecting pipe sizes, and running the pressure check from the main connection to the most disadvantaged outlet.',
+          'Start by marking up the floor plan to identify all fixtures and their groups (e.g. Level 3 amenities, Kitchen, Level 7 amenities). For each group, sum the fixture units and use the probable simultaneous demand table to find the design flow. Then trace the distribution network back to the main riser and size each pipe segment. Work from the most disadvantaged outlet back toward the supply \u2014 this ensures your sizing decisions are driven by the worst-case pressure scenario.',
+          'Document your sizing in a pipe sizing schedule. Present it clearly so the reviewing engineer can follow your logic without asking questions. Common errors to check: forgetting to include fittings allowance in the pressure loss calculation, using the wrong fixture flow rate from the table, and not checking the minimum velocity (too slow a flow velocity in a large pipe can allow sediment to accumulate and bacteria to grow in heated water systems).'
+        ]},
+      { id:'a5', text:'Review a fire service layout for AS/NZS 1221 compliance \u2014 check water supply demand, pipework nominal diameter, and isolation valve requirements',
+        resources:[
+          {label:'Installation of Fire Hose Reels \u2014 Sections 6\u20137: Water Supply and Connection Fittings', url:null, type:'int'},
+        ],
+        context:[
+          'Reviewing a fire service layout for AS/NZS 1221 compliance is a systematic check against the requirements of the standard and the hydraulic design brief. The key items to verify are: coverage (does each hose reel cover its required floor area with a 36-metre hose reach from the reel connection point?), accessibility (can the reel be accessed without travelling through the fire?), water supply (is the supply capable of simultaneously serving the two most disadvantaged reels?), and pipework (is the nominal diameter sized by hydraulic calculation?).',
+          'Check the isolation valve placement \u2014 every valve that can interrupt supply to a hose reel must be padlocked open and tagged correctly. Verify that the pipework reticulation arrangement matches the required layout in the standard (ring main vs branched configuration). Confirm that the most hydraulically disadvantaged reels \u2014 the ones with the highest friction losses and/or lowest supply pressure \u2014 have been correctly identified and used as the basis for the hydraulic calculation.',
+          'When reviewing an existing layout prepared by another engineer, the professional approach is to independently verify the hydraulic calculation rather than simply checking that numbers look reasonable. If you identify a compliance issue, document it clearly with the specific clause reference from the standard. This is how design reviews are done in practice \u2014 specific, referenced, and actionable.'
+        ]},
+      { id:'a6', text:'Shadow a site commissioning or troubleshooting call', resources:[],
+        context:[
+          'Site commissioning is the process of verifying that an installed hydraulic system performs as designed before it is handed over to the client. For a water services system, commissioning typically includes flushing the pipework, pressure testing, balancing flow rates at outlets, testing and certifying backflow prevention devices, and checking that all isolation valves are correctly labelled and accessible.',
+          'When shadowing a commissioning call, focus on understanding how the installed system is checked against the design drawings. Watch how the engineer identifies discrepancies between what was drawn and what was installed, and how those discrepancies are documented (typically in a commissioning defect list or snag list). Non-conformances must be rectified and rechecked before the hydraulic certificate can be issued.',
+          'Troubleshooting on site \u2014 diagnosing why a system is not performing as expected \u2014 is a high-value skill that is only learned through experience. Common issues on water services include inadequate pressure at high-level fixtures (undersized pump or pipework, or higher-than-expected friction losses), water hammer (insufficient arrestors or incorrect valve closing speed), and contamination or discolouration (inadequate flushing before commissioning). Noting the diagnostic process used by the senior engineer will accelerate your own troubleshooting ability.'
+        ]},
+      { id:'a7', text:'Draft a technical submission or project scope document', resources:[],
+        context:[
+          'A technical submission is a document prepared by the hydraulics consultant to demonstrate that a design complies with the requirements of the relevant standards and the project brief. Submissions are typically prepared for the certifier (demonstrating NCC/AS3500 compliance), the hydraulic sub-contractor (providing the design intent and specification for installation), or the client (justifying a design recommendation or variation).',
+          'A project scope document defines what the hydraulics consultant is responsible for designing \u2014 which systems (water, drainage, stormwater, fire), which building areas, and what level of detail at each design stage (concept, design development, construction documentation). It also identifies exclusions, assumptions, and interfaces with other disciplines. Getting the scope right at the start of a project is a commercial and professional necessity \u2014 scope creep is one of the most common causes of fee overruns in consulting.',
+          'When drafting either document, clarity and precision matter. Every claim should be traceable to a specific clause in a standard or a specific design parameter. Avoid vague statements like \'the design complies with all relevant standards\' \u2014 instead, name the standard and the specific requirement. A well-written technical submission reduces certifier queries and accelerates project approvals.'
+        ]},
+    ]
+  },
+  {
+    id:'integration', stage:4,
+    title:'Integration', timeframe:'Week 9\u201312',
+    desc:'Independence, ownership, and team contribution',
+    color:'#EF4444',
+    items:[
+      { id:'i1', text:'Own a small project end-to-end \u2014 scope \u2192 design \u2192 BOM \u2192 senior review', resources:[],
+        context:[
+          'Owning a project end-to-end \u2014 even a small one \u2014 is the most significant milestone in a new engineer\'s development. It means you are responsible for the full sequence: receiving the brief, developing the design concept, producing the calculations and drawings, coordinating with other disciplines, managing any client queries, and delivering to the required standard and timeline.',
+          'The most important skills at this stage are time management and communication. Break the project into discrete tasks with estimated hours and deadlines. If you are going to miss a deadline or encounter a technical issue you cannot resolve independently, communicate early \u2014 do not wait until the deadline has passed to raise the problem. Consulting is a deadline-driven industry and proactive communication is what distinguishes a reliable team member from one who needs to be managed.',
+          'After your senior review, treat every comment as data. Map the feedback to the gaps in your technical knowledge or process \u2014 was it a calculation error, a missing compliance check, a drawing presentation issue, or a scope misunderstanding? Documenting your own lessons from this project review is exactly what the Stage 5 knowledge base compilation task is designed to capture.'
+        ]},
+      { id:'i2', text:'Handle a client or supplier query independently', resources:[],
+        context:[
+          'Handling a client or supplier query independently tests whether you can represent the company\'s technical position clearly, accurately, and professionally. Client queries are typically about design decisions (\'why was this pipe size selected?\', \'can we reduce the pump room size?\'), programme (\'when will the hydraulic drawings be issued?\'), or cost (\'is there a cheaper option for this system?\'). Supplier queries are typically about product compliance, lead times, or substitution requests.',
+          'Before responding to any query, make sure you fully understand the question and have verified your answer against the relevant standard or design documentation. If you are unsure of the answer, it is always better to say \'I will confirm and get back to you\' than to provide an incorrect answer that the client acts on. Copy your supervisor on any responses until you are confident in your technical standing.',
+          'Keep a log of queries you handle \u2014 what was asked, what you found out, and what you responded. This log becomes a valuable record of issues raised on a project and how they were resolved, and is useful when a query resurfaces later in the project (as they often do).'
+        ]},
+      { id:'i3', text:'Identify and document one process improvement within a project workflow', resources:[],
+        context:[
+          'Process improvement in an engineering consulting environment means identifying a step in the workflow that is inefficient, error-prone, or inconsistent \u2014 and proposing or implementing a better way. Examples include: creating a reusable pipe sizing calculation template that reduces manual data entry, documenting an office standard for hydraulic drawing layers that has not been formally written down, or developing a checklist for commissioning inspections to ensure nothing is missed.',
+          'The key to a good improvement initiative is that it solves a real problem that others on the team recognise. Before proposing a change, confirm with at least one senior colleague that the problem exists and that your proposed solution would help. Changes that solve a problem nobody else has noticed \u2014 or that create new complexity to address the problem \u2014 are less likely to be adopted.',
+          'Document the improvement clearly: describe the original process, the problem with it, the proposed new process, and the expected benefit (time saved, error rate reduced, consistency improved). Even if the improvement is not immediately implemented, demonstrating that you can identify workflow inefficiencies and think systematically about solutions is a strong signal of professional maturity.'
+        ]},
+      { id:'i4', text:'Contribute to a proposal or tender response', resources:[],
+        context:[
+          'Contributing to a proposal or tender response gives you insight into the commercial side of consulting \u2014 how work is won, how fees are calculated, and how a firm positions its capabilities relative to competitors. A proposal typically includes: an understanding of the project brief, the proposed scope of services, the team and their relevant experience, a project programme, and a fee.',
+          'The hydraulics section of a proposal must accurately describe what will be delivered and when. This requires understanding the project programme, the design deliverables required at each stage (concept drawings, design development drawings, construction documentation, specifications, reports), and the hours required to produce them. Underestimating the scope in a proposal to win work at a lower fee is a common commercial mistake that creates significant pressure later in the project.',
+          'Even if your contribution is limited to drafting the technical scope section or pulling together relevant project experience, understanding the proposal process helps you appreciate the commercial context your work sits within \u2014 why certain projects are more or less profitable, why scope is managed carefully, and how the quality of your work directly affects the firm\'s ability to win more work.'
+        ]},
+      { id:'i5', text:'Compile personal knowledge base \u2014 key learnings, useful calculations, go-to resources, and contacts', resources:[],
+        context:[
+          'A personal knowledge base is a structured, searchable record of the technical knowledge you have built during your internship \u2014 the calculations you have learned to run, the standards clauses you reference most often, the design rules of thumb that experienced engineers use, and the contacts at suppliers and contractors who are useful to know. It is distinct from a project archive \u2014 it is about capturing transferable knowledge, not project-specific records.',
+          'Structure your knowledge base in a way that makes it easy to retrieve when you need it under time pressure. Consider organising it by service type (water services, drainage, fire services), then by topic (sizing, materials, compliance, typical values). For each entry, note the source (standard clause number, senior engineer guidance, industry publication) so you can verify it later and cite it in design documentation.',
+          'The engineers who progress fastest in their careers are not necessarily those with the best memory \u2014 they are those with the best systems for capturing and applying knowledge efficiently. The knowledge base you build in your first 12 weeks will compound over the years that follow. Every time you use it to answer a question faster or catch a design error, the time you invested in building it pays back.'
+        ]},
+    ]
+  },
+];
+
+// ══════════════════════════════════════════════════════════════════════════
+// STATE — localStorage persistence (V6 key preserved)
+// ══════════════════════════════════════════════════════════════════════════
+const STORAGE_KEY = 'gnb-roadmap-v2';
+let state = { checked:{}, notes:{} };
+let openStages = { foundations: true };
+let saveTimers = {};
+let activeItemId = null;
+let currentPage = 'dashboard';
+
+function loadState(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) state = Object.assign({ checked:{}, notes:{} }, JSON.parse(raw));
+  } catch(e){}
+}
+function saveState(){
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){}
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// COMPUTED
+// ══════════════════════════════════════════════════════════════════════════
+const totalItems = ROADMAP.reduce((s,st) => s + st.items.length, 0);
+function completedCount(){ return Object.values(state.checked).filter(Boolean).length; }
+function stageProgress(stage){
+  const done = stage.items.filter(i => state.checked[i.id]).length;
+  return { done, total: stage.items.length, pct: Math.round(done / stage.items.length * 100) };
+}
+function currentStageName(){
+  for(const s of ROADMAP){ if(stageProgress(s).pct < 100) return s.title; }
+  return 'All Complete';
+}
+function getStageStatus(stage, index){
+  const prog = stageProgress(stage);
+  if(prog.pct === 100) return 'complete';
+  for(let i = 0; i < ROADMAP.length; i++){
+    if(stageProgress(ROADMAP[i]).pct < 100) return i === index ? 'active' : 'upcoming';
+  }
+  return 'upcoming';
+}
+function completedStages(){
+  return ROADMAP.filter(s => stageProgress(s).pct === 100).length;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// SVGs (for checkmarks in items)
+// ══════════════════════════════════════════════════════════════════════════
+const checkSVG = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5.5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const extIconSVG = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0;margin-top:2px"><path d="M5 3H3C1.895 3 1 3.895 1 5V9C1 10.105 1.895 11 3 11H7C8.105 11 9 10.105 9 9V7M7 1H11M11 1V5M11 1L5 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const docIconSVG = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0;margin-top:2px"><path d="M2 1.5h5.5L10 4v6.5a.5.5 0 01-.5.5h-7A.5.5 0 012 10.5v-9z" stroke="currentColor" stroke-width="1.2"/><path d="M7.5 1.5V4H10M4 6.5h4M4 8.5h2.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>';
+
+// ══════════════════════════════════════════════════════════════════════════
+// SIDEBAR UPDATE
+// ══════════════════════════════════════════════════════════════════════════
+function updateSidebar(){
+  const pct = Math.round(completedCount() / totalItems * 100);
+  document.getElementById('sidebar-pct').textContent = pct + '%';
+  document.getElementById('sidebar-fill').style.width = pct + '%';
+  document.getElementById('sidebar-fill-pct').textContent = pct + '%';
+}
+
+function updateNav(pageId){
+  document.getElementById('nav-dashboard').classList.toggle('active', pageId === 'dashboard');
+  document.getElementById('nav-roadmap').classList.toggle('active', pageId === 'roadmap');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════════════════════════════════════
+function renderDashboard(){
+  const hour = new Date().getHours();
+  const greet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('dash-greeting').textContent = greet;
+
+  const done = completedCount();
+  const pct = Math.round(done / totalItems * 100);
+  const cStages = completedStages();
+  const curStage = currentStageName();
+
+  document.getElementById('dash-sub').textContent = 'Intro Engineer Track \u00b7 12-week programme \u00b7 ' + pct + '% complete';
+
+  document.getElementById('kpi-grid').innerHTML =
+    '<div class="kpi-card">' +
+      '<div class="kpi-card__label">Overall Progress</div>' +
+      '<div class="kpi-card__value">' + pct + '<span style="font-size:var(--text-sm);font-weight:400;color:var(--color-text-muted)">%</span></div>' +
+      '<div class="kpi-card__sub">Intro Engineer track</div>' +
+      '<div class="kpi-card__delta delta-up">\u2191 On track</div>' +
+    '</div>' +
+    '<div class="kpi-card">' +
+      '<div class="kpi-card__label">Tasks Complete</div>' +
+      '<div class="kpi-card__value">' + done + '<span style="font-size:var(--text-sm);font-weight:400;color:var(--color-text-muted)"> / ' + totalItems + '</span></div>' +
+      '<div class="kpi-card__sub">Checklist items</div>' +
+    '</div>' +
+    '<div class="kpi-card">' +
+      '<div class="kpi-card__label">Stages Complete</div>' +
+      '<div class="kpi-card__value">' + cStages + '<span style="font-size:var(--text-sm);font-weight:400;color:var(--color-text-muted)"> / ' + ROADMAP.length + '</span></div>' +
+      '<div class="kpi-card__sub">Out of ' + ROADMAP.length + ' stages</div>' +
+    '</div>' +
+    '<div class="kpi-card">' +
+      '<div class="kpi-card__label">Current Stage</div>' +
+      '<div class="kpi-card__value" style="font-size:var(--text-lg)">' + curStage + '</div>' +
+      '<div class="kpi-card__sub">Next focus area</div>' +
+    '</div>';
+
+  // Stage progress list
+  document.getElementById('dash-stage-list').innerHTML = ROADMAP.map(function(stage){
+    var prog = stageProgress(stage);
+    return '<div class="dash-stage-row" onclick="showPage(\'roadmap\')">' +
+      '<div class="dash-stage-dot" style="background:' + stage.color + '"></div>' +
+      '<div class="dash-stage-info">' +
+        '<div class="dash-stage-name">' + stage.title + '</div>' +
+        '<div class="dash-stage-meta">' + stage.timeframe + ' \u00b7 ' + prog.done + '/' + prog.total + ' tasks</div>' +
+      '</div>' +
+      '<div class="dash-stage-bar">' +
+        '<div class="dash-stage-pct">' + prog.pct + '%</div>' +
+        '<div class="mini-progress"><div class="mini-fill" style="width:' + prog.pct + '%;background:' + stage.color + '"></div></div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// ROADMAP — STAGE CARDS
+// ══════════════════════════════════════════════════════════════════════════
+function renderItem(item, stageColor){
+  var isDone = !!state.checked[item.id];
+  var hasNote = (state.notes[item.id] || '').trim().length > 0;
+  var hasRes = item.resources.length > 0;
+
+  var indicators = '';
+  if(hasRes) indicators += '<span class="ind-pill res">' + item.resources.length + ' resource' + (item.resources.length > 1 ? 's' : '') + '</span>';
+  if(hasNote) indicators += '<span class="ind-pill note">Note</span>';
+
+  return '<div class="item-row" id="row-' + item.id + '">' +
+    '<div class="check-box ' + (isDone ? 'checked' : '') + '" style="' + (isDone ? 'background:' + stageColor + ';color:white;' : '') + '" onclick="toggle(\'' + item.id + '\')">' + (isDone ? checkSVG : '') + '</div>' +
+    '<div class="item-body" onclick="openDetail(\'' + item.id + '\')">' +
+      '<div class="item-text ' + (isDone ? 'done' : '') + '">' + item.text + '</div>' +
+      (indicators ? '<div class="item-indicators">' + indicators + '</div>' : '') +
+    '</div>' +
+    '<div class="item-chevron" onclick="openDetail(\'' + item.id + '\')">' +
+      '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5l3.5 3.5-3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+    '</div>' +
+  '</div>';
+}
+
+function renderStages(){
+  var container = document.getElementById('stage-list');
+  container.innerHTML = '';
+
+  // Update roadmap header progress
+  var totalPct = Math.round(completedCount() / totalItems * 100);
+  document.getElementById('roadmap-pct').textContent = totalPct + '%';
+  document.getElementById('roadmap-fill').style.width = totalPct + '%';
+
+  ROADMAP.forEach(function(stage, si){
+    var prog = stageProgress(stage);
+    var isOpen = !!openStages[stage.id];
+    var status = getStageStatus(stage, si);
+
+    var statusLabel = status === 'complete' ? 'Complete' : status === 'active' ? 'In Progress' : 'Upcoming';
+    var cardClass = 'stage-card' + (status === 'active' ? ' stage-card--active' : '');
+
+    var itemsHTML = stage.items.map(function(item){ return renderItem(item, stage.color); }).join('');
+
+    var card = document.createElement('div');
+    card.className = cardClass;
+    card.id = 'stage-' + stage.id;
+    card.innerHTML =
+      '<div class="stage-header" onclick="toggleStage(\'' + stage.id + '\')">' +
+        '<svg class="stage-chevron ' + (isOpen ? 'open' : '') + '" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+        '<div class="stage-num-box" style="background:' + stage.color + '18;border:1.5px solid ' + stage.color + '38;color:' + stage.color + '">' + stage.stage + '</div>' +
+        '<div class="stage-info">' +
+          '<div class="stage-title-row">' +
+            '<span class="stage-title">' + stage.title + '</span>' +
+            '<span class="stage-week">' + stage.timeframe + '</span>' +
+          '</div>' +
+          '<div class="stage-desc">' + stage.desc + '</div>' +
+        '</div>' +
+        '<div class="stage-prog">' +
+          '<span class="stage-count ' + (prog.pct === 100 ? 'done' : '') + '">' + prog.done + '/' + prog.total + '</span>' +
+          '<div class="mini-progress" style="width:54px"><div class="mini-fill" style="width:' + prog.pct + '%;background:' + stage.color + '"></div></div>' +
+        '</div>' +
+        '<span class="stage-status-badge status-' + status + '">' + statusLabel + '</span>' +
+      '</div>' +
+      (isOpen ? '<div class="stage-body">' + itemsHTML + '</div>' : '');
+
+    container.appendChild(card);
+  });
+
+  lucide.createIcons();
+}
+
+function rerenderStage(stageId){
+  var stage = ROADMAP.find(function(s){ return s.id === stageId; });
+  var isOpen = !!openStages[stageId];
+  var prog = stageProgress(stage);
+  var card = document.getElementById('stage-' + stageId);
+  if(!card) return;
+
+  var countEl = card.querySelector('.stage-count');
+  if(countEl){
+    countEl.textContent = prog.done + '/' + prog.total;
+    countEl.className = 'stage-count ' + (prog.pct === 100 ? 'done' : '');
+  }
+  var miniEl = card.querySelector('.mini-fill');
+  if(miniEl) miniEl.style.width = prog.pct + '%';
+
+  var chevEl = card.querySelector('.stage-chevron');
+  if(chevEl) chevEl.className = 'stage-chevron ' + (isOpen ? 'open' : '');
+
+  // Update status badge
+  var si = ROADMAP.indexOf(stage);
+  var status = getStageStatus(stage, si);
+  var statusLabel = status === 'complete' ? 'Complete' : status === 'active' ? 'In Progress' : 'Upcoming';
+  var badgeEl = card.querySelector('.stage-status-badge');
+  if(badgeEl){
+    badgeEl.className = 'stage-status-badge status-' + status;
+    badgeEl.textContent = statusLabel;
+  }
+
+  // Update active card styling
+  card.className = 'stage-card' + (status === 'active' ? ' stage-card--active' : '');
+
+  var existing = card.querySelector('.stage-body');
+  if(isOpen){
+    var itemsHTML = stage.items.map(function(item){ return renderItem(item, stage.color); }).join('');
+    if(existing){ existing.innerHTML = itemsHTML; }
+    else {
+      var d = document.createElement('div');
+      d.className = 'stage-body';
+      d.innerHTML = itemsHTML;
+      card.appendChild(d);
+    }
+  } else {
+    if(existing) existing.remove();
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// INTERACTIONS
+// ══════════════════════════════════════════════════════════════════════════
+function toggle(itemId){
+  state.checked[itemId] = !state.checked[itemId];
+  saveState();
+  updateSidebar();
+
+  if(currentPage === 'dashboard'){
+    renderDashboard();
+  } else {
+    // Update roadmap progress header
+    var totalPct = Math.round(completedCount() / totalItems * 100);
+    document.getElementById('roadmap-pct').textContent = totalPct + '%';
+    document.getElementById('roadmap-fill').style.width = totalPct + '%';
+
+    var stageId = ROADMAP.find(function(s){ return s.items.some(function(i){ return i.id === itemId; }); });
+    if(stageId) rerenderStage(stageId.id);
+
+    // Re-render other stages to update status badges
+    ROADMAP.forEach(function(s){ if(s.id !== stageId.id) rerenderStage(s.id); });
+  }
+
+  if(activeItemId === itemId) refreshCompleteBtn(!!state.checked[itemId]);
+}
+
+function toggleStage(stageId){
+  openStages[stageId] = !openStages[stageId];
+  rerenderStage(stageId);
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// DETAIL PAGE
+// ══════════════════════════════════════════════════════════════════════════
+function openDetail(itemId){
+  activeItemId = itemId;
+  var stage = ROADMAP.find(function(s){ return s.items.some(function(i){ return i.id === itemId; }); });
+  var item = stage.items.find(function(i){ return i.id === itemId; });
+
+  document.getElementById('dp-top-bar').style.background = stage.color;
+  var pill = document.getElementById('dp-stage-pill');
+  pill.textContent = 'Stage ' + stage.stage + ' \u00b7 ' + stage.timeframe;
+  pill.style.cssText = 'background:' + stage.color + '18;border:1px solid ' + stage.color + '30;color:' + stage.color + ';font-size:10px;font-weight:600;padding:3px 0.75rem;border-radius:0.5rem;letter-spacing:0.03em;';
+
+  document.getElementById('dp-task-title').textContent = item.text;
+  refreshCompleteBtn(!!state.checked[itemId]);
+
+  // Context paragraphs
+  var ctxBlock = document.getElementById('dp-context-block');
+  if(item.context && item.context.length > 0){
+    ctxBlock.innerHTML = item.context.map(function(p){ return '<p class="dp-context-p">' + p + '</p>'; }).join('');
+    ctxBlock.style.display = '';
+  } else {
+    ctxBlock.innerHTML = '';
+    ctxBlock.style.display = 'none';
+  }
+
+  // Resources
+  var resSection = document.getElementById('dp-res-section');
+  var resList = document.getElementById('dp-res-list');
+  if(item.resources.length > 0){
+    resSection.style.display = '';
+    resList.innerHTML = item.resources.map(function(r){
+      var isInt = r.type === 'int';
+      var icon = isInt ? docIconSVG : extIconSVG;
+      var badge = isInt ? '<span class="int-badge">INTERNAL</span>' : '';
+      if(r.url) return '<div class="dp-res-card ' + (isInt ? 'int-card' : '') + '">' + icon + '<span><a href="' + r.url + '" target="_blank" rel="noopener noreferrer">' + r.label + '</a>' + badge + '</span></div>';
+      else return '<div class="dp-res-card ' + (isInt ? 'int-card' : '') + '">' + icon + '<span><span class="res-name">' + r.label + '</span>' + badge + '</span></div>';
+    }).join('');
+  } else {
+    resSection.style.display = 'none';
+  }
+
+  // Notes
+  document.getElementById('dp-note-ta').value = state.notes[itemId] || '';
+  document.getElementById('dp-saved-indicator').classList.remove('show');
+
+  // Show detail page
+  window._savedScrollY = window.scrollY;
+  var page = document.getElementById('detail-page');
+  document.querySelector('.app').style.display = 'none';
+  page.style.display = 'block';
+  requestAnimationFrame(function(){ page.classList.add('open'); });
+  window.scrollTo(0, 0);
+  lucide.createIcons();
+}
+
+function closeDetail(){
+  activeItemId = null;
+  var page = document.getElementById('detail-page');
+  page.classList.remove('open');
+  setTimeout(function(){
+    page.style.display = 'none';
+    document.querySelector('.app').style.display = '';
+    window.scrollTo(0, window._savedScrollY || 0);
+  }, 200);
+}
+
+function refreshCompleteBtn(isDone){
+  var btn = document.getElementById('dp-complete-btn');
+  if(isDone){
+    btn.className = 'dp-complete-btn complete';
+    btn.innerHTML = checkSVG + ' Marked complete \u2014 click to undo';
+  } else {
+    btn.className = 'dp-complete-btn incomplete';
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="1.5" width="11" height="11" rx="3" stroke="currentColor" stroke-width="1.3"/></svg> Mark as complete';
+  }
+}
+
+function toggleFromPanel(){
+  if(!activeItemId) return;
+  state.checked[activeItemId] = !state.checked[activeItemId];
+  saveState();
+  updateSidebar();
+
+  if(currentPage === 'roadmap'){
+    var totalPct = Math.round(completedCount() / totalItems * 100);
+    document.getElementById('roadmap-pct').textContent = totalPct + '%';
+    document.getElementById('roadmap-fill').style.width = totalPct + '%';
+  }
+
+  var stageId = ROADMAP.find(function(s){ return s.items.some(function(i){ return i.id === activeItemId; }); });
+  if(stageId){
+    rerenderStage(stageId.id);
+    ROADMAP.forEach(function(s){ if(s.id !== stageId.id) rerenderStage(s.id); });
+  }
+  refreshCompleteBtn(!!state.checked[activeItemId]);
+}
+
+function onPanelNoteInput(){
+  if(!activeItemId) return;
+  var ta = document.getElementById('dp-note-ta');
+  state.notes[activeItemId] = ta.value;
+  clearTimeout(saveTimers[activeItemId]);
+  saveTimers[activeItemId] = setTimeout(function(){
+    saveState();
+    var savedEl = document.getElementById('dp-saved-indicator');
+    if(savedEl){ savedEl.classList.add('show'); setTimeout(function(){ savedEl.classList.remove('show'); }, 1800); }
+    var stageId = ROADMAP.find(function(s){ return s.items.some(function(i){ return i.id === activeItemId; }); });
+    if(stageId) rerenderStage(stageId.id);
+  }, 600);
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════════════════════════════
+function showPage(pageId){
+  currentPage = pageId;
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('page-' + pageId).classList.add('active');
+  updateNav(pageId);
+
+  if(pageId === 'dashboard'){
+    document.getElementById('breadcrumb-section').textContent = '';
+    document.getElementById('breadcrumb-sep').textContent = '';
+    document.getElementById('breadcrumb-page').textContent = 'Dashboard';
+    renderDashboard();
+  } else {
+    document.getElementById('breadcrumb-section').textContent = 'Tracks';
+    document.getElementById('breadcrumb-sep').textContent = '/';
+    document.getElementById('breadcrumb-page').textContent = 'Intro Engineer';
+    renderStages();
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// THEME TOGGLE
+// ══════════════════════════════════════════════════════════════════════════
+(function(){
+  var toggles = document.querySelectorAll('[data-theme-toggle]');
+  var root = document.documentElement;
+  var d = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  root.setAttribute('data-theme', d);
+  toggles.forEach(function(t){
+    t.addEventListener('click', function(){
+      d = d === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', d);
+    });
+  });
+})();
+
+// ══════════════════════════════════════════════════════════════════════════
+// RESPONSIVE
+// ══════════════════════════════════════════════════════════════════════════
+function checkMobile(){
+  var ham = document.getElementById('hamburger');
+  if(window.innerWidth <= 900){ ham.style.display = 'flex'; }
+  else { ham.style.display = 'none'; document.getElementById('sidebar').classList.remove('open'); }
+}
+window.addEventListener('resize', checkMobile);
+checkMobile();
+
+// ══════════════════════════════════════════════════════════════════════════
+// RESET
+// ══════════════════════════════════════════════════════════════════════════
+document.getElementById('reset-btn').addEventListener('click', function(){
+  if(confirm('Reset all progress and notes? This cannot be undone.')){
+    state = { checked:{}, notes:{} };
+    openStages = { foundations: true };
+    saveState();
+    updateSidebar();
+    if(currentPage === 'dashboard') renderDashboard();
+    else renderStages();
+  }
+});
+
+// ══════════════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════════════
+loadState();
+updateSidebar();
+renderDashboard();
+lucide.createIcons();
+</script>
+</body>
+</html>
