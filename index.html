@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Coursa — Goldfish & Bay</title>
+  <title>LTdemo — Goldfish & Bay</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -466,7 +466,7 @@
           <path d="M22 10.5C20.2 8.9 17.8 8 15.2 8C9.7 8 6 11.9 6 16.5C6 21.1 9.7 25 15.2 25C17.8 25 20.2 24.1 22 22.5" stroke="white" stroke-width="2.2" stroke-linecap="round" fill="none"/>
           <path d="M18 13L22 10.5L25 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.7"/>
         </svg>
-        <span class="sidebar__logo-name">Coursa</span>
+        <span class="sidebar__logo-name">LTdemo</span>
       </a>
       <button class="icon-btn" data-theme-toggle style="width:28px;height:28px;border:none;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -541,7 +541,7 @@
       <!-- DASHBOARD PAGE -->
       <div class="page active" id="page-dashboard">
         <h1 class="page-title" id="dash-greeting">Good afternoon</h1>
-        <p class="page-sub" id="dash-sub">Intro Engineer Track &middot; 12-week programme</p>
+        <p class="page-sub" id="dash-sub">Intro Engineer Track &middot; 12-week program</p>
         <div class="kpi-grid" id="kpi-grid"></div>
         <div class="card">
           <div class="card__header">
@@ -733,26 +733,26 @@ const ROADMAP = [
   {
     id:'technical-core', stage:2,
     title:'Technical Core', timeframe:'Week 3\u20134',
-    desc:'Circuits, components, and standards compliance',
+    desc:'Technical Drawings, components, and standards compliance',
     color:'#10B981',
     items:[
-      { id:'t1', text:'Circuit symbology \u2014 read and sketch ISO 1219-compliant hydraulic schematics',
+      { id:'t1', text:'Drawing symbology \u2014 read and sketch ISO 1219-compliant hydraulic schematics',
         resources:[
           {label:'ISO 1219-1 Hydraulic Symbol Guide', url:'https://www.iso.org/standard/68091.html', type:'ext'},
           {label:'FluidPower.net \u2014 Interactive Symbol Library', url:'https://www.fluidpower.net/', type:'ext'},
         ],
         context:[
-          'Hydraulic schematics are the language of hydraulic systems. Unlike piping layout drawings, a schematic shows the function of a system \u2014 not the physical position of components \u2014 using standardised symbols defined in ISO 1219-1. Every pump, valve, actuator, filter, and pressure gauge has a specific symbol, and the way components are connected on the schematic tells you exactly how the circuit operates.',
+          'Hydraulic schematics are the language of hydraulic systems. Unlike piping layout drawings, a schematic shows the function of a system \u2014 not the physical position of components \u2014 using standardised symbols defined in ISO 1219-1. Every pump, valve, actuator, filter, and pressure gauge has a specific symbol, and the way components are connected on the schematic tells you exactly how the drawing operates.',
           'The most important symbols to learn first are: hydraulic pump (triangle pointing outward), hydraulic motor (triangle pointing inward), directional control valve (rectangle with arrows showing flow paths), pressure relief valve (arrow with a spring and drain), check valve (ball against a seat), filter (diamond), and hydraulic cylinder (rectangle with a rod). Valves are drawn in their \'normal\' (de-energised) position on the schematic, and actuation symbols (solenoid, spring, pilot) are shown at each end.',
-          'When reading a circuit, trace the flow path step by step: start at the pump outlet, follow the flow through each valve and component to the actuator, then follow the return path back to the tank. This sequential tracing approach \u2014 rather than trying to read the whole schematic at once \u2014 is how experienced engineers diagnose faults and verify circuit logic.'
+          'When reading a drawing, trace the flow path step by step: start at the pump outlet, follow the flow through each valve and component to the actuator, then follow the return path back to the tank. This sequential tracing approach \u2014 rather than trying to read the whole schematic at once \u2014 is how experienced engineers diagnose faults and verify drawing logic.'
         ]},
       { id:'t2', text:'Core components \u2014 pumps, directional/pressure/flow control valves, actuators',
         resources:[
           {label:'Bosch Rexroth \u2014 Hydraulic Trainer Vol. 1', url:'https://www.boschrexroth.com/', type:'ext'},
         ],
         context:[
-          'A hydraulic pump converts mechanical energy (from an electric motor or engine) into hydraulic flow. The most common types in industrial and building plant applications are gear pumps (simple, low cost, fixed displacement), vane pumps (quieter, moderate pressure), and piston pumps (high efficiency, variable displacement available). The pump is always the source of flow in the circuit \u2014 it does not create pressure directly; pressure is a result of resistance to flow.',
-          'Directional control valves (DCVs) route flow to different actuator ports to control direction of movement. A 4/3 valve (4 ports, 3 positions) is the most common for double-acting cylinders \u2014 it has a pressure port, a tank port, and two actuator ports, with a centre condition (open centre, closed centre, or tandem) that determines what happens when the valve is in neutral. Pressure control valves include relief valves (set the maximum system pressure), pressure-reducing valves (limit pressure to a secondary circuit), sequence valves, and counterbalance valves. Flow control valves meter the flow to an actuator to control its speed.',
+          'A hydraulic pump converts mechanical energy (from an electric motor or engine) into hydraulic flow. The most common types in industrial and building plant applications are gear pumps (simple, low cost, fixed displacement), vane pumps (quieter, moderate pressure), and piston pumps (high efficiency, variable displacement available). The pump is always the source of flow in the drawing \u2014 it does not create pressure directly; pressure is a result of resistance to flow.',
+          'Directional control valves (DCVs) route flow to different actuator ports to control direction of movement. A 4/3 valve (4 ports, 3 positions) is the most common for double-acting cylinders \u2014 it has a pressure port, a tank port, and two actuator ports, with a centre condition (open centre, closed centre, or tandem) that determines what happens when the valve is in neutral. Pressure control valves include relief valves (set the maximum system pressure), pressure-reducing valves (limit pressure to a secondary drawing), sequence valves, and counterbalance valves. Flow control valves meter the flow to an actuator to control its speed.',
           'Actuators convert hydraulic energy back into mechanical work. Linear actuators are hydraulic cylinders \u2014 single-acting (one pressure port, spring return) or double-acting (pressure on both sides). Rotary actuators are hydraulic motors (continuous rotation) or limited-rotation actuators. When selecting components, the three key values are: maximum working pressure (must be within the rated pressure of every component), flow rate (determines actuator speed), and port sizing (must match the flow velocity guidelines for the application).'
         ]},
       { id:'t3', text:'Cylinder sizing \u2014 force calculations, rod buckling (Euler), cushioning selection',
@@ -827,11 +827,11 @@ const ROADMAP = [
     desc:'Real project tasks under supervision',
     color:'#F59E0B',
     items:[
-      { id:'a1', text:'Complete a circuit design task with senior engineer review', resources:[],
+      { id:'a1', text:'Complete a drawing design task with senior engineer review', resources:[],
         context:[
-          'A circuit design task is where everything from Stage 1 and 2 comes together in practice. You will be given a functional requirement \u2014 for example, a double-acting cylinder that must extend at a controlled speed, hold position under load, and retract when the operator releases the control \u2014 and you must translate that requirement into a complete schematic using ISO 1219 symbols.',
-          'Start by identifying the actuator requirements (force, speed, stroke), then work backwards to select the valve configuration, pump type and size, pressure settings, and filter ratings. Sketch the circuit logic first without worrying about symbols \u2014 just map the flow path \u2014 then convert to a proper ISO 1219 schematic. A common mistake is to draw the schematic as if it is a layout drawing; a schematic should be arranged to show logic clearly, not to represent physical locations.',
-          'When your circuit is reviewed by a senior engineer, pay attention to every comment \u2014 especially questions about what happens in fault conditions (valve fails to shift, pressure relief opens, motor stalls). Experienced engineers think in failure modes, and developing that same habit early will significantly accelerate your competency growth.'
+          'A drawing design task is where everything from Stage 1 and 2 comes together in practice. You will be given a functional requirement \u2014 for example, a double-acting cylinder that must extend at a controlled speed, hold position under load, and retract when the operator releases the control \u2014 and you must translate that requirement into a complete schematic using ISO 1219 symbols.',
+          'Start by identifying the actuator requirements (force, speed, stroke), then work backwards to select the valve configuration, pump type and size, pressure settings, and filter ratings. Sketch the drawing logic first without worrying about symbols \u2014 just map the flow path \u2014 then convert to a proper ISO 1219 schematic. A common mistake is to draw the schematic as if it is a layout drawing; a schematic should be arranged to show logic clearly, not to represent physical locations.',
+          'When your drawing is reviewed by a senior engineer, pay attention to every comment \u2014 especially questions about what happens in fault conditions (valve fails to shift, pressure relief opens, motor stalls). Experienced engineers think in failure modes, and developing that same habit early will significantly accelerate your competency growth.'
         ]},
       { id:'a2', text:'Produce a Bill of Materials from a hydraulic schematic', resources:[],
         context:[
@@ -895,7 +895,7 @@ const ROADMAP = [
         ]},
       { id:'i2', text:'Handle a client or supplier query independently', resources:[],
         context:[
-          'Handling a client or supplier query independently tests whether you can represent the company\'s technical position clearly, accurately, and professionally. Client queries are typically about design decisions (\'why was this pipe size selected?\', \'can we reduce the pump room size?\'), programme (\'when will the hydraulic drawings be issued?\'), or cost (\'is there a cheaper option for this system?\'). Supplier queries are typically about product compliance, lead times, or substitution requests.',
+          'Handling a client or supplier query independently tests whether you can represent the company\'s technical position clearly, accurately, and professionally. Client queries are typically about design decisions (\'why was this pipe size selected?\', \'can we reduce the pump room size?\'), program (\'when will the hydraulic drawings be issued?\'), or cost (\'is there a cheaper option for this system?\'). Supplier queries are typically about product compliance, lead times, or substitution requests.',
           'Before responding to any query, make sure you fully understand the question and have verified your answer against the relevant standard or design documentation. If you are unsure of the answer, it is always better to say \'I will confirm and get back to you\' than to provide an incorrect answer that the client acts on. Copy your supervisor on any responses until you are confident in your technical standing.',
           'Keep a log of queries you handle \u2014 what was asked, what you found out, and what you responded. This log becomes a valuable record of issues raised on a project and how they were resolved, and is useful when a query resurfaces later in the project (as they often do).'
         ]},
@@ -907,8 +907,8 @@ const ROADMAP = [
         ]},
       { id:'i4', text:'Contribute to a proposal or tender response', resources:[],
         context:[
-          'Contributing to a proposal or tender response gives you insight into the commercial side of consulting \u2014 how work is won, how fees are calculated, and how a firm positions its capabilities relative to competitors. A proposal typically includes: an understanding of the project brief, the proposed scope of services, the team and their relevant experience, a project programme, and a fee.',
-          'The hydraulics section of a proposal must accurately describe what will be delivered and when. This requires understanding the project programme, the design deliverables required at each stage (concept drawings, design development drawings, construction documentation, specifications, reports), and the hours required to produce them. Underestimating the scope in a proposal to win work at a lower fee is a common commercial mistake that creates significant pressure later in the project.',
+          'Contributing to a proposal or tender response gives you insight into the commercial side of consulting \u2014 how work is won, how fees are calculated, and how a firm positions its capabilities relative to competitors. A proposal typically includes: an understanding of the project brief, the proposed scope of services, the team and their relevant experience, a project program, and a fee.',
+          'The hydraulics section of a proposal must accurately describe what will be delivered and when. This requires understanding the project program, the design deliverables required at each stage (concept drawings, design development drawings, construction documentation, specifications, reports), and the hours required to produce them. Underestimating the scope in a proposal to win work at a lower fee is a common commercial mistake that creates significant pressure later in the project.',
           'Even if your contribution is limited to drafting the technical scope section or pulling together relevant project experience, understanding the proposal process helps you appreciate the commercial context your work sits within \u2014 why certain projects are more or less profitable, why scope is managed carefully, and how the quality of your work directly affects the firm\'s ability to win more work.'
         ]},
       { id:'i5', text:'Compile personal knowledge base \u2014 key learnings, useful calculations, go-to resources, and contacts', resources:[],
@@ -1001,7 +1001,7 @@ function renderDashboard(){
   const cStages = completedStages();
   const curStage = currentStageName();
 
-  document.getElementById('dash-sub').textContent = 'Intro Engineer Track \u00b7 12-week programme \u00b7 ' + pct + '% complete';
+  document.getElementById('dash-sub').textContent = 'Intro Engineer Track \u00b7 12-week program \u00b7 ' + pct + '% complete';
 
   document.getElementById('kpi-grid').innerHTML =
     '<div class="kpi-card">' +
